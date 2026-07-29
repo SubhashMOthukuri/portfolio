@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Subhash Mothukuru
+N:Mothukuru;Subhash;;;
+TITLE:Full-Stack AI Engineer
+ORG:Scale AI
+EMAIL;TYPE=INTERNET:meet.subhashmothukuru@gmail.com
+URL:https://github.com/SubhashMOthukuri
+URL:https://www.linkedin.com/in/subhash-m-ab0407399/
+ADR;TYPE=WORK:;;San Francisco;CA;;;USA
+NOTE:Full-Stack AI Engineer — production ML, RAG, and agentic AI systems. Open to architecture consulting and advisory work.
+END:VCARD
