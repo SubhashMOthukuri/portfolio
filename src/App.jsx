@@ -572,7 +572,7 @@ function NotFoundPage() {
           <Compass size={28} />
         </div>
         <p className="font-mono text-sm text-muted mb-2">404</p>
-        <h1 className="text-3xl font-display font-semibold text-ink mb-3">Page not found</h1>
+        <h1 className="text-2xl font-display font-semibold text-ink mb-3">Page not found</h1>
         <p className="text-ink/70 mb-8">
           That route doesn't exist. It might've been a typo, or a link that moved.
         </p>
@@ -1150,7 +1150,7 @@ function HomePage() {
                   Currently building agentic AI @ Scale AI
                 </motion.span>
                 <motion.h1
-                  className="text-5xl md:text-6xl font-display font-semibold text-ink mb-3 leading-tight"
+                  className="text-4xl md:text-5xl font-display font-semibold text-ink mb-3 leading-tight"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
@@ -1158,7 +1158,7 @@ function HomePage() {
                   {heroData.name}
                 </motion.h1>
                 <motion.p
-                  className="text-2xl text-gradient-spectrum font-display font-semibold"
+                  className="text-xl text-gradient-spectrum font-display font-semibold"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.4 }}
@@ -1318,120 +1318,124 @@ function HomePage() {
             transition={{ duration: 0.6 }}
             className="relative mb-16"
           >
-            <h2 className="text-4xl font-display font-semibold text-ink mb-2">Featured Projects</h2>
+            <h2 className="text-3xl font-display font-semibold text-ink mb-2">Featured Projects</h2>
             <p className="text-lg text-muted">
               Production systems solving real-world problems at scale
             </p>
           </motion.div>
 
-          {/* Modular bento grid — one featured project, two compact ones, instead of three identical stacked cards */}
-          <div className="relative grid md:grid-cols-3 md:grid-rows-2 gap-6">
-            {projects.map((project, index) => {
-              const featured = index === 0;
-              return (
-                <MotionLink
-                  key={project.id}
-                  to={`/projects/${project.slug}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.08 }}
-                  whileHover={{ y: -5 }}
-                  className={`group relative block cursor-pointer bg-white border border-black/8 rounded-3xl overflow-hidden hover:border-black/15 hover:shadow-[0_20px_60px_-20px_rgba(12,11,20,0.2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 ${
-                    featured ? 'md:col-span-2 md:row-span-2' : ''
-                  }`}
-                >
-                  {featured ? (
-                    <div className="relative p-8 md:p-10 h-full flex flex-col">
-                      <span className="absolute -top-6 -right-4 font-display font-bold text-black/[0.04] text-[200px] leading-none select-none pointer-events-none">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <div className="relative grid sm:grid-cols-2 gap-8 flex-1">
-                        <div className="h-56 sm:h-full bg-black/5 rounded-2xl overflow-hidden">
-                          <img
-                            src={project.image}
-                            alt={project.name}
-                            loading="lazy"
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                        <div className="flex flex-col justify-between">
-                          <div>
-                            <span className="inline-block px-2.5 py-1 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-wide rounded-full mb-3">
-                              Featured
-                            </span>
-                            <h3 className="text-2xl font-display font-semibold text-ink mb-2 group-hover:text-blue-600 transition-colors">
-                              {project.name}
-                            </h3>
-                            <p className="text-muted font-medium mb-4">{project.tagline}</p>
-                            <p className="text-ink/80 line-clamp-3">{project.problem}</p>
-                          </div>
+          {/* Modular bento layout — featured project sizes to its own content (no forced row-matching),
+              compact projects stack independently beside it. Two flex columns, not a CSS grid, so
+              neither side stretches to fill space the other side doesn't need. */}
+          <div className="relative flex flex-col md:flex-row gap-4 items-start">
+            <MotionLink
+              to={`/projects/${projects[0].slug}`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              whileHover={{ y: -5 }}
+              className="group relative block cursor-pointer md:w-2/3 bg-white border border-black/8 rounded-2xl overflow-hidden hover:border-black/15 hover:shadow-[0_20px_60px_-20px_rgba(12,11,20,0.2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+            >
+              <div className="relative p-5 md:p-6">
+                <span className="absolute -top-3 -right-2 font-display font-bold text-black/[0.04] text-[110px] leading-none select-none pointer-events-none">
+                  01
+                </span>
+                <div className="relative grid sm:grid-cols-2 gap-5">
+                  <div className="h-44 sm:h-auto bg-black/5 rounded-xl overflow-hidden">
+                    <img
+                      src={projects[0].image}
+                      alt={projects[0].name}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="inline-block px-2 py-0.5 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-wide rounded-full mb-2 self-start">
+                      Featured
+                    </span>
+                    <h3 className="text-lg font-display font-semibold text-ink mb-1 group-hover:text-blue-600 transition-colors">
+                      {projects[0].name}
+                    </h3>
+                    <p className="text-sm text-muted font-medium mb-2">{projects[0].tagline}</p>
+                    <p className="text-sm text-ink/80 line-clamp-2 mb-4">{projects[0].problem}</p>
 
-                          <div className="space-y-4 mt-6">
-                            <div className="grid grid-cols-2 gap-3">
-                              {project.stats.slice(0, 2).map((stat, i) => (
-                                <div key={i} className="bg-surface p-3 rounded-xl">
-                                  <div className="text-lg font-display font-semibold text-blue-600">
-                                    {stat.metric}
-                                  </div>
-                                  <div className="text-xs text-muted">{stat.label}</div>
-                                </div>
-                              ))}
-                            </div>
-                            <div className="flex flex-wrap gap-2">
-                              {project.keywords.slice(0, 3).map((keyword, i) => (
-                                <span
-                                  key={i}
-                                  className="px-3 py-1 bg-signal/15 text-blue-700 text-sm rounded-full font-medium"
-                                >
-                                  {keyword}
-                                </span>
-                              ))}
-                            </div>
-                            <span className="flex items-center gap-2 text-blue-600 font-semibold group-hover:text-blue-700 transition-colors mt-2">
-                              View Details
-                              <ArrowRight size={18} />
-                            </span>
+                    <div className="grid grid-cols-2 gap-2 mb-3">
+                      {projects[0].stats.slice(0, 2).map((stat, i) => (
+                        <div key={i} className="bg-surface p-2.5 rounded-lg">
+                          <div className="text-[15px] font-display font-semibold text-blue-600">
+                            {stat.metric}
                           </div>
+                          <div className="text-xs text-muted">{stat.label}</div>
                         </div>
-                      </div>
+                      ))}
                     </div>
-                  ) : (
-                    <div className="p-6 h-full flex flex-col">
-                      <div className="h-32 bg-black/5 rounded-xl overflow-hidden mb-4">
-                        <img
-                          src={project.image}
-                          alt={project.name}
-                          loading="lazy"
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                      <span className="font-mono text-xs text-muted mb-1">
-                        {String(index + 1).padStart(2, '0')}
-                      </span>
-                      <h3 className="text-lg font-display font-semibold text-ink mb-1 group-hover:text-blue-600 transition-colors">
-                        {project.name}
-                      </h3>
-                      <p className="text-sm text-muted line-clamp-2 mb-3">{project.tagline}</p>
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {project.keywords.slice(0, 2).map((keyword, i) => (
-                          <span
-                            key={i}
-                            className="px-2.5 py-0.5 bg-signal/15 text-blue-700 text-xs rounded-full font-medium"
-                          >
-                            {keyword}
-                          </span>
-                        ))}
-                      </div>
-                      <span className="mt-auto flex items-center gap-1.5 text-blue-600 text-sm font-semibold group-hover:text-blue-700 transition-colors">
-                        View Details
-                        <ArrowRight size={14} />
-                      </span>
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {projects[0].keywords.slice(0, 3).map((keyword, i) => (
+                        <span
+                          key={i}
+                          className="px-2.5 py-0.5 bg-signal/15 text-blue-700 text-xs rounded-full font-medium"
+                        >
+                          {keyword}
+                        </span>
+                      ))}
                     </div>
-                  )}
-                </MotionLink>
-              );
-            })}
+                    <span className="flex items-center gap-1.5 text-blue-600 text-sm font-semibold group-hover:text-blue-700 transition-colors">
+                      View Details
+                      <ArrowRight size={16} />
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </MotionLink>
+
+            <div className="md:w-1/3 flex flex-col gap-4 w-full">
+              {projects.slice(1).map((project, i) => {
+                const index = i + 1;
+                return (
+                  <MotionLink
+                    key={project.id}
+                    to={`/projects/${project.slug}`}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.08 }}
+                    whileHover={{ y: -5 }}
+                    className="group block cursor-pointer bg-white border border-black/8 rounded-2xl overflow-hidden hover:border-black/15 hover:shadow-[0_20px_60px_-20px_rgba(12,11,20,0.2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 p-5"
+                  >
+                    <div className="h-24 bg-black/5 rounded-lg overflow-hidden mb-3">
+                      <img
+                        src={project.image}
+                        alt={project.name}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <span className="font-mono text-xs text-muted mb-1 block">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <h3 className="text-[15px] font-display font-semibold text-ink mb-1 group-hover:text-blue-600 transition-colors">
+                      {project.name}
+                    </h3>
+                    <p className="text-sm text-muted line-clamp-2 mb-2">{project.tagline}</p>
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {project.keywords.slice(0, 2).map((keyword, i) => (
+                        <span
+                          key={i}
+                          className="px-2.5 py-0.5 bg-signal/15 text-blue-700 text-xs rounded-full font-medium"
+                        >
+                          {keyword}
+                        </span>
+                      ))}
+                    </div>
+                    <span className="flex items-center gap-1.5 text-blue-600 text-sm font-semibold group-hover:text-blue-700 transition-colors">
+                      View Details
+                      <ArrowRight size={14} />
+                    </span>
+                  </MotionLink>
+                );
+              })}
+            </div>
           </div>
         </section>
 
@@ -1444,7 +1448,7 @@ function HomePage() {
             transition={{ duration: 0.6 }}
             className="mb-16"
           >
-            <h2 className="text-4xl font-display font-semibold text-ink mb-2">From Problem to Production</h2>
+            <h2 className="text-3xl font-display font-semibold text-ink mb-2">From Problem to Production</h2>
             <p className="text-lg text-muted max-w-2xl">
               Different AI paradigms need different pipelines. Here's the real path each one takes to a deployed system.
             </p>
@@ -1497,7 +1501,7 @@ function HomePage() {
             transition={{ duration: 0.6 }}
             className="mb-16"
           >
-            <h2 className="text-4xl font-display font-semibold text-ink mb-2">The Full Stack</h2>
+            <h2 className="text-3xl font-display font-semibold text-ink mb-2">The Full Stack</h2>
             <p className="text-lg text-muted max-w-2xl">
               Research to deployment — the tools behind everything above.
             </p>
@@ -1538,7 +1542,7 @@ function HomePage() {
             transition={{ duration: 0.6 }}
             className="mb-16"
           >
-            <h2 className="text-4xl font-display font-semibold text-ink mb-2">Where I've Shipped</h2>
+            <h2 className="text-3xl font-display font-semibold text-ink mb-2">Where I've Shipped</h2>
             <p className="text-lg text-muted">
               5+ years across recommendation systems, ranking, and generative AI in production
             </p>
@@ -1611,7 +1615,7 @@ function HomePage() {
             className="space-y-8"
           >
             <div>
-              <h2 className="text-4xl font-display font-semibold text-ink mb-6">About Me</h2>
+              <h2 className="text-3xl font-display font-semibold text-ink mb-6">About Me</h2>
               <div className="space-y-6 text-lg max-w-3xl">
                 <p className="text-ink/80 leading-relaxed">
                   AI has moved past being a research exercise — the real problem now is building systems reliable
@@ -1623,7 +1627,7 @@ function HomePage() {
                   recommendation models at Meta and evolving into agentic AI systems today — RAG pipelines, LLM
                   fine-tuning, and the infrastructure that keeps them running once they leave a notebook.
                 </p>
-                <p className="font-display text-2xl md:text-3xl font-semibold text-ink leading-snug border-l-4 border-signal pl-5">
+                <p className="font-display text-xl md:text-2xl font-semibold text-ink leading-snug border-l-4 border-signal pl-5">
                   Every line of code should have a fallback.
                 </p>
                 <p className="text-ink/80 leading-relaxed">
@@ -1652,7 +1656,7 @@ function HomePage() {
             className="space-y-8"
           >
             <div>
-              <h2 className="text-4xl font-display font-semibold text-ink mb-6">Certifications</h2>
+              <h2 className="text-3xl font-display font-semibold text-ink mb-6">Certifications</h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {certifications.map((cert, i) => {
                   const CardTag = cert.url ? motion.a : motion.div;
@@ -1698,7 +1702,7 @@ function HomePage() {
             transition={{ duration: 0.6 }}
             className="mb-16"
           >
-            <h2 className="text-4xl font-display font-semibold text-ink mb-2">Writing</h2>
+            <h2 className="text-3xl font-display font-semibold text-ink mb-2">Writing</h2>
             <p className="text-lg text-muted max-w-2xl">
               Notes from production — where the metrics and the real world disagree.
             </p>
@@ -1742,7 +1746,7 @@ function HomePage() {
             className="space-y-8"
           >
             <div>
-              <h2 className="text-4xl font-display font-semibold text-ink mb-6">Frequently Asked Questions</h2>
+              <h2 className="text-3xl font-display font-semibold text-ink mb-6">Frequently Asked Questions</h2>
               <div className="space-y-4">
                 {faqItems.map((item, i) => (
                   <FAQItem key={i} question={item.q} answer={item.a} />
@@ -1767,7 +1771,7 @@ function HomePage() {
                   <span className="w-1.5 h-1.5 rounded-full bg-success" />
                   Open to architecture consulting & advisory work
                 </span>
-                <h2 className="text-4xl font-display font-semibold text-ink mb-4">Let's Talk</h2>
+                <h2 className="text-3xl font-display font-semibold text-ink mb-4">Let's Talk</h2>
                 <p className="text-lg text-muted mb-8">
                   Always happy to discuss AI/ML systems, architecture, or opportunities. Email is the fastest way to reach me.
                 </p>
@@ -1894,7 +1898,7 @@ function HomePage() {
           <div className="max-w-[1440px] mx-auto">
             <div className="grid md:grid-cols-3 gap-10 pb-10 border-b border-white/10">
               <div>
-                <div className="text-2xl font-display font-semibold mb-3">subhash.mothukuru</div>
+                <div className="text-xl font-display font-semibold mb-3">subhash.mothukuru</div>
                 <p className="text-white/60 text-sm leading-relaxed max-w-xs">
                   Full-Stack AI Engineer building production ML, recommendation, and generative AI systems — from
                   data pipelines to deployed architecture.
@@ -2048,7 +2052,7 @@ function ProjectPage() {
               <ArrowLeft size={18} />
               Back to projects
             </Link>
-            <h1 className="text-3xl font-display font-semibold text-ink">{project.name}</h1>
+            <h1 className="text-2xl font-display font-semibold text-ink">{project.name}</h1>
             <p className="text-muted mt-1">{project.tagline}</p>
           </div>
         </div>
@@ -2068,7 +2072,7 @@ function ProjectPage() {
         {/* Problem & Solution */}
         <div className="grid md:grid-cols-2 gap-8">
           <div>
-            <h3 className="text-2xl font-display font-semibold text-ink mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-display font-semibold text-ink mb-4 flex items-center gap-2">
               <XCircle size={26} className="text-red-500" /> The Problem
             </h3>
             <p className="text-ink/80 text-lg leading-relaxed">
@@ -2077,7 +2081,7 @@ function ProjectPage() {
           </div>
 
           <div>
-            <h3 className="text-2xl font-display font-semibold text-ink mb-4 flex items-center gap-2">
+            <h3 className="text-xl font-display font-semibold text-ink mb-4 flex items-center gap-2">
               <CheckCircle2 size={26} className="text-success" /> The Solution
             </h3>
             <p className="text-ink/80 text-lg leading-relaxed">
@@ -2088,7 +2092,7 @@ function ProjectPage() {
 
         {/* Architecture Pipeline */}
         <div>
-          <h3 className="text-2xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
+          <h3 className="text-xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
             <Code2 size={28} className="text-blue-600" />
             Architecture & Production Pipeline
           </h3>
@@ -2134,7 +2138,7 @@ function ProjectPage() {
 
         {/* Production Deployment */}
         <div className="bg-white border border-black/8 rounded-3xl p-8">
-          <h3 className="text-2xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
+          <h3 className="text-xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
             <Zap size={28} className="text-purple-600" />
             Production Deployment
           </h3>
@@ -2153,7 +2157,7 @@ function ProjectPage() {
 
         {/* Tech Stack */}
         <div>
-          <h3 className="text-2xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
+          <h3 className="text-xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
             <GitBranch size={28} className="text-blue-600" />
             Technology Stack
           </h3>
@@ -2173,7 +2177,7 @@ function ProjectPage() {
 
         {/* Key Metrics */}
         <div className="bg-white border border-black/8 rounded-3xl p-8">
-          <h3 className="text-2xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
+          <h3 className="text-xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
             <Shield size={28} className="text-success" />
             Proven Results
           </h3>
@@ -2225,7 +2229,7 @@ function ProjectPage() {
 
         {/* Related Systems */}
         <div className="pt-8 border-t border-black/8">
-          <h3 className="text-2xl font-display font-semibold text-ink mb-6">Related Systems</h3>
+          <h3 className="text-xl font-display font-semibold text-ink mb-6">Related Systems</h3>
           <div className="grid sm:grid-cols-2 gap-5">
             {projects
               .filter((p) => p.slug !== project.slug)
@@ -2312,10 +2316,10 @@ function CaseStudyPage() {
           <p className="font-mono text-sm font-semibold text-blue-600 uppercase tracking-[0.15em] mb-5">
             Case Study
           </p>
-          <h1 className="text-5xl md:text-6xl font-display font-semibold text-ink leading-[1.05] mb-5">
+          <h1 className="text-4xl md:text-5xl font-display font-semibold text-ink leading-[1.05] mb-5">
             {project.name}
           </h1>
-          <p className="text-2xl text-ink/70 leading-relaxed mb-7 max-w-3xl">{cs.subtitle}</p>
+          <p className="text-xl text-ink/70 leading-relaxed mb-7 max-w-3xl">{cs.subtitle}</p>
           <span className="flex items-start gap-3 px-5 py-4 rounded-xl bg-gold/15 text-amber-800 font-medium leading-relaxed max-w-3xl">
             <span className="w-2 h-2 rounded-full bg-gold flex-shrink-0 mt-1.5" />
             {cs.status}
@@ -2330,7 +2334,7 @@ function CaseStudyPage() {
         <section className="mb-20">
           <div className="flex items-baseline gap-4 mb-5">
             <span className="font-mono text-sm text-secondary">{nextSectionNumber()}</span>
-            <h2 className="text-3xl font-display font-semibold text-ink">Overview</h2>
+            <h2 className="text-2xl font-display font-semibold text-ink">Overview</h2>
           </div>
           <p className="text-ink/80 text-xl leading-[1.7] max-w-3xl">{cs.overview}</p>
         </section>
@@ -2339,7 +2343,7 @@ function CaseStudyPage() {
         <section className="mb-20">
           <div className="flex items-baseline gap-4 mb-5">
             <span className="font-mono text-sm text-secondary">{nextSectionNumber()}</span>
-            <h2 className="text-3xl font-display font-semibold text-ink">The Problem</h2>
+            <h2 className="text-2xl font-display font-semibold text-ink">The Problem</h2>
           </div>
           <p className="text-ink/80 text-xl leading-[1.7] max-w-3xl">{cs.problemNarrative}</p>
         </section>
@@ -2348,7 +2352,7 @@ function CaseStudyPage() {
         <section className="mb-20">
           <div className="flex items-baseline gap-4 mb-6">
             <span className="font-mono text-sm text-secondary">{nextSectionNumber()}</span>
-            <h2 className="text-3xl font-display font-semibold text-ink">Design Principles</h2>
+            <h2 className="text-2xl font-display font-semibold text-ink">Design Principles</h2>
           </div>
           <ul className="space-y-4">
             {cs.principles.map((p, i) => (
@@ -2364,7 +2368,7 @@ function CaseStudyPage() {
         <section className="mb-20">
           <div className="flex items-baseline gap-4 mb-2">
             <span className="font-mono text-sm text-secondary">{nextSectionNumber()}</span>
-            <h2 className="text-3xl font-display font-semibold text-ink">Architecture Deep-Dive</h2>
+            <h2 className="text-2xl font-display font-semibold text-ink">Architecture Deep-Dive</h2>
           </div>
           <p className="text-muted text-lg mb-8 ml-[calc(1.5rem+1rem)]">
             How the 8 pipeline stages (see the project overview) group into four defensive layers.
@@ -2391,7 +2395,7 @@ function CaseStudyPage() {
         <section className="mb-20">
           <div className="flex items-baseline gap-4 mb-5">
             <span className="font-mono text-sm text-secondary">{nextSectionNumber()}</span>
-            <h2 className="text-3xl font-display font-semibold text-ink">Production & Compliance</h2>
+            <h2 className="text-2xl font-display font-semibold text-ink">Production & Compliance</h2>
           </div>
           <p className="text-ink/80 text-xl leading-[1.7] max-w-3xl mb-8">{cs.complianceNarrative}</p>
           <div className="grid sm:grid-cols-2 gap-6 bg-surface rounded-2xl p-7 md:p-8">
@@ -2408,7 +2412,7 @@ function CaseStudyPage() {
         <section className="mb-20">
           <div className="flex items-baseline gap-4 mb-5">
             <span className="font-mono text-sm text-secondary">{nextSectionNumber()}</span>
-            <h2 className="text-3xl font-display font-semibold text-ink">Results</h2>
+            <h2 className="text-2xl font-display font-semibold text-ink">Results</h2>
           </div>
           <p className="text-ink/80 text-xl leading-[1.7] max-w-3xl mb-8">{cs.resultsNarrative}</p>
           <ul className="space-y-3">
@@ -2425,7 +2429,7 @@ function CaseStudyPage() {
         <section className="mb-20">
           <div className="flex items-baseline gap-4 mb-5">
             <span className="font-mono text-sm text-secondary">{nextSectionNumber()}</span>
-            <h2 className="text-3xl font-display font-semibold text-ink">What's Next</h2>
+            <h2 className="text-2xl font-display font-semibold text-ink">What's Next</h2>
           </div>
           <p className="text-ink/80 text-xl leading-[1.7] max-w-3xl">{cs.whatsNext}</p>
         </section>
@@ -2434,7 +2438,7 @@ function CaseStudyPage() {
         <section className="mb-16">
           <div className="flex items-baseline gap-4 mb-6">
             <span className="font-mono text-sm text-secondary">{nextSectionNumber()}</span>
-            <h2 className="text-3xl font-display font-semibold text-ink">Tech Stack</h2>
+            <h2 className="text-2xl font-display font-semibold text-ink">Tech Stack</h2>
           </div>
           <div className="flex flex-wrap gap-2.5">
             {project.techStack.map((tech, i) => (
