@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Routes, Route, Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
@@ -874,6 +874,119 @@ function GithubActivityStrip() {
   );
 }
 
+// Animated dithered gradient background — cheap flow-field + ordered (Bayer) dithering,
+// rendered at low internal resolution and scaled up via CSS for the grainy/pixelated look.
+function DitherGradientBackground({ className = '' }) {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const CELL_PX = 5; // target physical size of one dithered cell, so grain stays fine at any viewport
+    const MAX_INTERNAL_W = 340;
+
+    const bayer8 = [
+      [0, 32, 8, 40, 2, 34, 10, 42],
+      [48, 16, 56, 24, 50, 18, 58, 26],
+      [12, 44, 4, 36, 14, 46, 6, 38],
+      [60, 28, 52, 20, 62, 30, 54, 22],
+      [3, 35, 11, 43, 1, 33, 9, 41],
+      [51, 19, 59, 27, 49, 17, 57, 25],
+      [15, 47, 7, 39, 13, 45, 5, 37],
+      [63, 31, 55, 23, 61, 29, 53, 21],
+    ].map((row) => row.map((v) => v / 64));
+
+    // Palette pulled from the site's own theme tokens, weighted heavily toward the
+    // pale end so most of the canvas reads as soft grain, not solid color blocks.
+    const palette = [
+      [250, 250, 247], // --color-base
+      [244, 245, 251],
+      [237, 238, 250],
+      [228, 230, 248],
+      [216, 219, 250],
+      [199, 205, 246],
+      [165, 180, 252], // --color-signal
+      [135, 138, 236], // rare accent — only in the brightest field peaks
+    ];
+
+    let w = 0;
+    let h = 0;
+    let raf;
+
+    function resize() {
+      const rect = canvas.parentElement.getBoundingClientRect();
+      w = Math.max(1, Math.min(MAX_INTERNAL_W, Math.round(rect.width / CELL_PX)));
+      h = Math.max(1, Math.round((rect.height / rect.width) * w));
+      canvas.width = w;
+      canvas.height = h;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function paint(t) {
+      const imageData = ctx.createImageData(w, h);
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          const nx = x / w;
+          const ny = y / h;
+          const n =
+            Math.sin(nx * 3.2 + t * 0.15) * 0.5 +
+            Math.sin(ny * 4.1 - t * 0.11) * 0.5 +
+            Math.sin((nx + ny) * 2.4 + t * 0.08) * 0.4;
+          const raw = Math.min(1, Math.max(0, (n + 1.4) / 2.8));
+          // Bias toward the pale end of the palette — only occasional peaks reach the accent tones.
+          const field = Math.pow(raw, 2.4);
+
+          const scaled = field * (palette.length - 1);
+          const idx = Math.min(palette.length - 2, Math.floor(scaled));
+          const frac = scaled - idx;
+          const threshold = bayer8[y % 8][x % 8];
+          const useUpper = frac > threshold;
+          const c0 = palette[idx];
+          const c1 = palette[Math.min(palette.length - 1, idx + 1)];
+          const [r, g, b] = useUpper ? c1 : c0;
+
+          const p = (y * w + x) * 4;
+          imageData.data[p] = r;
+          imageData.data[p + 1] = g;
+          imageData.data[p + 2] = b;
+          imageData.data[p + 3] = 255;
+        }
+      }
+      ctx.putImageData(imageData, 0, 0);
+    }
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const t0 = performance.now();
+
+    function frame(now) {
+      paint((now - t0) / 1000);
+      raf = requestAnimationFrame(frame);
+    }
+
+    if (reduceMotion) {
+      paint(0);
+    } else {
+      raf = requestAnimationFrame(frame);
+    }
+
+    return () => {
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className={className}
+      style={{ imageRendering: 'pixelated', display: 'block' }}
+      aria-hidden="true"
+    />
+  );
+}
+
 // Home Page Component
 function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -1007,9 +1120,11 @@ function HomePage() {
       {/* Add padding to account for fixed nav */}
       <div className="pt-20">
         {/* HOME SECTION */}
-        <section id="home" className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto">
+        <section id="home" className="relative overflow-hidden">
+          <DitherGradientBackground className="absolute inset-0 w-full h-full" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-base" />
           <motion.div
-            className="grid md:grid-cols-2 gap-12 items-start"
+            className="relative z-10 grid md:grid-cols-2 gap-12 items-start py-20 px-6 md:px-12 max-w-[1440px] mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
@@ -1051,7 +1166,7 @@ function HomePage() {
                   {heroData.title}
                 </motion.p>
                 <motion.p
-                  className="text-lg text-muted mt-2"
+                  className="text-lg text-ink/60 mt-2"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
@@ -1115,7 +1230,7 @@ function HomePage() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative h-96 md:h-full bg-gradient-to-br from-surface to-blue-50 rounded-3xl border border-black/8 overflow-hidden"
+              className="relative h-96 md:h-full bg-white/35 backdrop-blur-xl rounded-3xl border border-white/50 shadow-[0_20px_60px_-25px_rgba(12,11,20,0.25)] overflow-hidden"
             >
               {/* Connecting lines — drawn once on mount, no continuous animation */}
               <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
