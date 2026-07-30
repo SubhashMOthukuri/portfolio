@@ -110,6 +110,27 @@ const companyBrand = {
   "Meta": { bg: "bg-[#0668E1]", text: "text-white", label: "meta" },
 };
 
+// Per-domain accent colors so the Systems section reads as distinct paradigms, not one blue wash
+const domainAccent = {
+  "Computer Vision": { badge: "bg-violet-100 text-violet-700", bar: "bg-violet-500", dot: "bg-violet-500" },
+  "NLP": { badge: "bg-blue-100 text-blue-700", bar: "bg-blue-500", dot: "bg-blue-500" },
+  "Audio": { badge: "bg-rose-100 text-rose-700", bar: "bg-rose-500", dot: "bg-rose-500" },
+  "Agentic AI": { badge: "bg-amber-100 text-amber-700", bar: "bg-amber-500", dot: "bg-amber-500" },
+  "LLMs": { badge: "bg-indigo-100 text-indigo-700", bar: "bg-indigo-500", dot: "bg-indigo-500" },
+  "RAG Systems": { badge: "bg-teal-100 text-teal-700", bar: "bg-teal-500", dot: "bg-teal-500" },
+};
+
+// Per-category accent colors for the Tech Stack section, same reasoning
+const stackAccent = {
+  "Programming & ML Frameworks": { badge: "bg-slate-100 text-slate-700", pill: "bg-slate-50 text-slate-700 border-slate-200" },
+  "AI, ML & Deep Learning": { badge: "bg-violet-100 text-violet-700", pill: "bg-violet-50 text-violet-700 border-violet-200" },
+  "Generative AI & LLMs": { badge: "bg-indigo-100 text-indigo-700", pill: "bg-indigo-50 text-indigo-700 border-indigo-200" },
+  "Recommendation, Ranking & Retrieval": { badge: "bg-teal-100 text-teal-700", pill: "bg-teal-50 text-teal-700 border-teal-200" },
+  "MLOps, LLMOps & Evaluation": { badge: "bg-amber-100 text-amber-700", pill: "bg-amber-50 text-amber-700 border-amber-200" },
+  "Data Engineering & Cloud": { badge: "bg-sky-100 text-sky-700", pill: "bg-sky-50 text-sky-700 border-sky-200" },
+  "AI Engineering & Development": { badge: "bg-rose-100 text-rose-700", pill: "bg-rose-50 text-rose-700 border-rose-200" },
+};
+
 // Hero visual: four capabilities radiating from one integrated engineer
 const capabilities = [
   { label: "AI / ML Engineering", icon: Sparkles, x: 12, y: 30 },
@@ -1454,9 +1475,10 @@ function HomePage() {
             </p>
           </motion.div>
 
-          <div className="space-y-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {domainPipelines.map((lane, i) => {
               const LaneIcon = lane.icon;
+              const accent = domainAccent[lane.domain];
               return (
                 <motion.div
                   key={lane.domain}
@@ -1464,26 +1486,25 @@ function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.06 }}
-                  className="bg-white border border-black/8 rounded-2xl p-5 md:p-6"
+                  className="relative bg-white border border-black/8 rounded-2xl p-5 overflow-hidden"
                 >
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-signal/15 text-blue-700 font-semibold text-sm flex-shrink-0">
+                  <span className={`absolute top-0 left-0 right-0 h-1 ${accent.bar}`} />
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <span className={`flex items-center justify-center w-9 h-9 rounded-lg flex-shrink-0 ${accent.badge}`}>
                       <LaneIcon size={16} />
-                      {lane.domain}
                     </span>
-                    <div className="flex flex-wrap items-center gap-2">
-                      {lane.steps.map((step) => (
-                        <React.Fragment key={step}>
-                          <span className="px-3 py-1.5 rounded-lg bg-surface text-ink/80 text-sm font-medium">
-                            {step}
-                          </span>
-                          <ArrowRight size={14} className="text-muted flex-shrink-0" />
-                        </React.Fragment>
-                      ))}
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-success/10 text-success text-sm font-semibold">
-                        <Rocket size={14} />
-                        Production
-                      </span>
+                    <h3 className="font-display font-semibold text-ink text-sm">{lane.domain}</h3>
+                  </div>
+                  <div className="space-y-2">
+                    {lane.steps.map((step) => (
+                      <div key={step} className="flex items-center gap-2.5">
+                        <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${accent.dot}`} />
+                        <span className="text-xs text-ink/70">{step}</span>
+                      </div>
+                    ))}
+                    <div className="flex items-center gap-2.5 pt-1">
+                      <Rocket size={12} className="text-success flex-shrink-0" />
+                      <span className="text-xs font-semibold text-success">Production</span>
                     </div>
                   </div>
                 </motion.div>
@@ -1507,29 +1528,34 @@ function HomePage() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-5">
-            {techStackCategories.map((group, i) => (
-              <motion.div
-                key={group.category}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="bg-white border border-black/8 rounded-2xl p-6"
-              >
-                <h3 className="font-display font-semibold text-ink mb-4">{group.category}</h3>
-                <div className="flex flex-wrap gap-2">
-                  {group.items.map((tech) => (
-                    <span
-                      key={tech}
-                      className="px-2.5 py-1 bg-surface text-ink/70 text-xs font-mono rounded-md border border-black/8"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
+          <div className="grid md:grid-cols-2 gap-4">
+            {techStackCategories.map((group, i) => {
+              const accent = stackAccent[group.category];
+              return (
+                <motion.div
+                  key={group.category}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="bg-white border border-black/8 rounded-2xl p-5"
+                >
+                  <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold mb-3 ${accent.badge}`}>
+                    {group.category}
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {group.items.map((tech) => (
+                      <span
+                        key={tech}
+                        className={`px-2.5 py-1 text-xs font-mono rounded-md border ${accent.pill}`}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </section>
 
