@@ -1301,13 +1301,22 @@ function HomePage() {
         <GithubActivityStrip />
 
         {/* WORK SECTION */}
-        <section id="work" className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
+        <section id="work" className="relative py-20 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface overflow-hidden">
+          {/* Subtle modular-grid guide lines — this section's own visual signature, distinct from the hero's dither */}
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.04]"
+            style={{
+              backgroundImage:
+                'repeating-linear-gradient(90deg, #0c0b14 0px, #0c0b14 1px, transparent 1px, transparent 180px)',
+            }}
+          />
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-16"
+            className="relative mb-16"
           >
             <h2 className="text-4xl font-display font-semibold text-ink mb-2">Featured Projects</h2>
             <p className="text-lg text-muted">
@@ -1315,88 +1324,114 @@ function HomePage() {
             </p>
           </motion.div>
 
-          {/* Projects Grid */}
-          <div className="grid gap-8">
-            {projects.map((project, index) => (
-              <MotionLink
-                key={project.id}
-                to={`/projects/${project.slug}`}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-                whileHover={{ y: -5 }}
-                className="group block cursor-pointer bg-white border border-black/8 rounded-3xl overflow-hidden hover:border-black/15 hover:shadow-[0_20px_60px_-20px_rgba(12,11,20,0.2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
-              >
-                <div className="grid md:grid-cols-3 gap-6 p-8">
-                  {/* Project Image */}
-                  <div className="md:col-span-1">
-                    <div className="h-64 md:h-full bg-black/5 rounded-2xl overflow-hidden">
-                      <img
-                        src={project.image}
-                        alt={project.name}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Project Info */}
-                  <div className="md:col-span-2 flex flex-col justify-between">
-                    <div>
-                      <div className="mb-3">
-                        <span className="font-mono text-xs text-muted">
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
-                        <h3 className="text-2xl font-display font-semibold text-ink mb-2 group-hover:text-blue-600 transition-colors">
-                          {project.name}
-                        </h3>
-                        <p className="text-muted font-medium">{project.tagline}</p>
-                      </div>
-
-                      <div className="mb-6">
-                        <h4 className="text-sm font-semibold text-ink/70 mb-3 uppercase tracking-wide">
-                          The Problem
-                        </h4>
-                        <p className="text-ink/80 line-clamp-2">{project.problem}</p>
-                      </div>
-                    </div>
-
-                    {/* Stats & Tags */}
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {project.stats.map((stat, i) => (
-                          <div key={i} className="bg-surface p-3 rounded-xl">
-                            <div className="text-lg font-display font-semibold text-blue-600">
-                              {stat.metric}
-                            </div>
-                            <div className="text-xs text-muted">{stat.label}</div>
+          {/* Modular bento grid — one featured project, two compact ones, instead of three identical stacked cards */}
+          <div className="relative grid md:grid-cols-3 md:grid-rows-2 gap-6">
+            {projects.map((project, index) => {
+              const featured = index === 0;
+              return (
+                <MotionLink
+                  key={project.id}
+                  to={`/projects/${project.slug}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.08 }}
+                  whileHover={{ y: -5 }}
+                  className={`group relative block cursor-pointer bg-white border border-black/8 rounded-3xl overflow-hidden hover:border-black/15 hover:shadow-[0_20px_60px_-20px_rgba(12,11,20,0.2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 ${
+                    featured ? 'md:col-span-2 md:row-span-2' : ''
+                  }`}
+                >
+                  {featured ? (
+                    <div className="relative p-8 md:p-10 h-full flex flex-col">
+                      <span className="absolute -top-6 -right-4 font-display font-bold text-black/[0.04] text-[200px] leading-none select-none pointer-events-none">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <div className="relative grid sm:grid-cols-2 gap-8 flex-1">
+                        <div className="h-56 sm:h-full bg-black/5 rounded-2xl overflow-hidden">
+                          <img
+                            src={project.image}
+                            alt={project.name}
+                            loading="lazy"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                        <div className="flex flex-col justify-between">
+                          <div>
+                            <span className="inline-block px-2.5 py-1 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-wide rounded-full mb-3">
+                              Featured
+                            </span>
+                            <h3 className="text-2xl font-display font-semibold text-ink mb-2 group-hover:text-blue-600 transition-colors">
+                              {project.name}
+                            </h3>
+                            <p className="text-muted font-medium mb-4">{project.tagline}</p>
+                            <p className="text-ink/80 line-clamp-3">{project.problem}</p>
                           </div>
-                        ))}
-                      </div>
 
-                      {/* Keywords */}
-                      <div className="flex flex-wrap gap-2">
-                        {project.keywords.map((keyword, i) => (
+                          <div className="space-y-4 mt-6">
+                            <div className="grid grid-cols-2 gap-3">
+                              {project.stats.slice(0, 2).map((stat, i) => (
+                                <div key={i} className="bg-surface p-3 rounded-xl">
+                                  <div className="text-lg font-display font-semibold text-blue-600">
+                                    {stat.metric}
+                                  </div>
+                                  <div className="text-xs text-muted">{stat.label}</div>
+                                </div>
+                              ))}
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                              {project.keywords.slice(0, 3).map((keyword, i) => (
+                                <span
+                                  key={i}
+                                  className="px-3 py-1 bg-signal/15 text-blue-700 text-sm rounded-full font-medium"
+                                >
+                                  {keyword}
+                                </span>
+                              ))}
+                            </div>
+                            <span className="flex items-center gap-2 text-blue-600 font-semibold group-hover:text-blue-700 transition-colors mt-2">
+                              View Details
+                              <ArrowRight size={18} />
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-6 h-full flex flex-col">
+                      <div className="h-32 bg-black/5 rounded-xl overflow-hidden mb-4">
+                        <img
+                          src={project.image}
+                          alt={project.name}
+                          loading="lazy"
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <span className="font-mono text-xs text-muted mb-1">
+                        {String(index + 1).padStart(2, '0')}
+                      </span>
+                      <h3 className="text-lg font-display font-semibold text-ink mb-1 group-hover:text-blue-600 transition-colors">
+                        {project.name}
+                      </h3>
+                      <p className="text-sm text-muted line-clamp-2 mb-3">{project.tagline}</p>
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {project.keywords.slice(0, 2).map((keyword, i) => (
                           <span
                             key={i}
-                            className="px-3 py-1 bg-signal/15 text-blue-700 text-sm rounded-full font-medium"
+                            className="px-2.5 py-0.5 bg-signal/15 text-blue-700 text-xs rounded-full font-medium"
                           >
                             {keyword}
                           </span>
                         ))}
                       </div>
-
-                      {/* View Details */}
-                      <span className="flex items-center gap-2 text-blue-600 font-semibold group-hover:text-blue-700 transition-colors mt-2">
+                      <span className="mt-auto flex items-center gap-1.5 text-blue-600 text-sm font-semibold group-hover:text-blue-700 transition-colors">
                         View Details
-                        <ArrowRight size={18} />
+                        <ArrowRight size={14} />
                       </span>
                     </div>
-                  </div>
-                </div>
-              </MotionLink>
-            ))}
+                  )}
+                </MotionLink>
+              );
+            })}
           </div>
         </section>
 
