@@ -2,7 +2,7 @@
 
 Personal portfolio for Subhash Mothukuru, Full-Stack AI Engineer. Built as a single-page React app with real project case studies, a live GitHub activity feed, and a Cmd+K command palette.
 
-**Live:** _add your deployed URL here once hosted_
+**Live:** [portfolio-sand-three-o41pqgcmv7.vercel.app](https://portfolio-sand-three-o41pqgcmv7.vercel.app/)
 
 ## Stack
 
@@ -35,4 +35,4 @@ Configured for both:
 - **Vercel** — `vercel.json` includes the SPA rewrite rule
 - **Netlify** — `public/_redirects` includes the SPA fallback rule
 
-Either platform can deploy directly from this repo with zero additional config.
+Either platform can deploy directly from this repo with zero additional config. Currently deployed on Vercel, auto-redeploying on every push to `main`.
