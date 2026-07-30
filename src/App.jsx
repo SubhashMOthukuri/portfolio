@@ -52,7 +52,7 @@ const heroData = {
   name: "Subhash Mothukuru",
   title: "Full-Stack AI Engineer",
   tagline: "AI/ML engineering, backend systems, and distributed architecture — end to end",
-  bio: "5+ years building production ML, recommendation, and generative AI systems that ship — not just models, but the backend services, distributed pipelines, and system architecture around them. Currently building agentic AI workflows at Scale AI.",
+  bio: "5+ years building production ML and generative AI systems — not just models, but the backend services, pipelines, and architecture that keep them reliable once real users depend on them. Currently applying that as a contract engineer on agentic AI workflows at Scale AI.",
   cta: {
     email: "meet.subhashmothukuru@gmail.com",
     github: "https://github.com/SubhashMOthukuri",
@@ -159,8 +159,8 @@ const projects = [
     name: "Clinical Medication Reconciliation AI",
     slug: "clinical-rag",
     tagline: "Production RAG system for healthcare",
-    problem: "Healthcare providers struggle with medication interaction detection and reconciliation at scale. Manual checking is error-prone and time-consuming. Need accurate, fast, reliable system to prevent adverse drug events.",
-    solution: "Built a multi-stage RAG system that normalizes drug names, enriches with FDA data, detects interactions, retrieves relevant medical knowledge, and validates outputs with structured generation.",
+    problem: "Small specialty practices run on basic EHR software with no pharmacist and no reconciliation team — a nurse checks medication lists from memory, and a missed interaction can end with a patient in the ER.",
+    solution: "A RAG system that checks every drug pair against FDA labels and clinical literature, and would rather hand back an FDA-only answer than let an LLM guess at a citation it can't back up.",
     keywords: ["RAG", "Healthcare AI", "LLMs", "FastAPI", "Production"],
     image: clinicalRagImage,
     stats: [
@@ -291,8 +291,8 @@ const projects = [
     name: "Enterprise AI Safety & Transparency Platform",
     slug: "enterprise-safety",
     tagline: "OWASP LLM Top-10 compliant system",
-    problem: "Enterprises need secure, compliant AI deployment with comprehensive monitoring. OWASP LLM Top-10 vulnerabilities must be addressed. Need full audit trails, access control, and user management.",
-    solution: "Built enterprise-grade platform with JWT/RBAC auth, 2FA, prompt injection detection, PII masking, bias detection, anomaly detection, and comprehensive audit logging.",
+    problem: "Teams deploying LLMs into production inherit their web-app security posture and assume it's enough — it isn't. A prompt can manipulate model behavior in ways the OWASP Top 10 was never written for, and most enterprises have no audit trail explaining why a model produced a given output.",
+    solution: "A security and compliance layer that treats prompt injection and unaudited model behavior as first-class risks — the same way a traditional platform treats SQL injection — mapped against all 10 OWASP LLM Top-10 categories.",
     keywords: ["Enterprise", "Security", "OWASP LLM", "Compliance", "FastAPI"],
     image: enterpriseSafetyImage,
     stats: [
@@ -1462,41 +1462,31 @@ function HomePage() {
           >
             <div>
               <h2 className="text-4xl font-display font-semibold text-ink mb-6">About Me</h2>
-              <div className="grid md:grid-cols-2 gap-8">
-                <div className="space-y-6 text-lg">
-                  <p className="text-ink/80 leading-relaxed">
-                    I'm a Full-Stack AI Engineer with 5+ years of production experience — from data pipelines and
-                    distributed model training to backend APIs and system architecture. Started my career with
-                    ranking and recommendation models at Meta, and evolved toward modern agentic AI workflows.
-                  </p>
-                  <p className="font-display text-2xl md:text-3xl font-semibold text-ink leading-snug border-l-4 border-signal pl-5">
-                    Every line of code should have a fallback.
-                  </p>
-                  <p className="text-ink/80 leading-relaxed">
-                    That discipline shows up as resilience patterns, comprehensive monitoring, and graceful
-                    degradation — production-grade systems, not notebook demos. Current focus: building
-                    enterprise-ready agentic AI systems at Scale AI, specialized in RAG pipelines and LLM fine-tuning.
-                  </p>
-                </div>
-                <div className="space-y-6">
-                  <div className="p-6 bg-black/[0.02] rounded-2xl border border-black/8">
-                    <h3 className="font-display font-semibold text-ink mb-3">Key Values</h3>
-                    <ul className="space-y-2 text-ink/80">
-                      {[
-                        "Production excellence",
-                        "Systems thinking",
-                        "Measured impact",
-                        "Clear communication",
-                        "Continuous learning",
-                      ].map((value) => (
-                        <li key={value} className="flex items-center gap-2">
-                          <span className="text-success">✓</span>
-                          {value}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+              <div className="space-y-6 text-lg max-w-3xl">
+                <p className="text-ink/80 leading-relaxed">
+                  AI has moved past being a research exercise — the real problem now is building systems reliable
+                  enough to run in production and valuable enough for a business to actually depend on. That's the
+                  part of this work I care about most.
+                </p>
+                <p className="text-ink/80 leading-relaxed">
+                  I'm a Full-Stack AI Engineer with 5+ years of production experience, starting with ranking and
+                  recommendation models at Meta and evolving into agentic AI systems today — RAG pipelines, LLM
+                  fine-tuning, and the infrastructure that keeps them running once they leave a notebook.
+                </p>
+                <p className="font-display text-2xl md:text-3xl font-semibold text-ink leading-snug border-l-4 border-signal pl-5">
+                  Every line of code should have a fallback.
+                </p>
+                <p className="text-ink/80 leading-relaxed">
+                  That's not a slogan — it's the discipline behind the resilience patterns, monitoring, and graceful
+                  degradation in everything I ship. Right now I'm applying it as a contract AI/ML engineer at Scale
+                  AI, focused on RAG pipelines and LLM fine-tuning for enterprise agentic workflows.
+                </p>
+                <p className="text-ink/80 leading-relaxed">
+                  What I enjoy most is the ambiguous part — before a system's shape is obvious, deciding how a model
+                  should fail safely, how to keep inference fast enough to matter, how to make an agent's behavior
+                  explainable to the person relying on it. Turning that ambiguity into something a team can actually
+                  trust in production is the work I find most worth doing.
+                </p>
               </div>
             </div>
           </motion.div>
