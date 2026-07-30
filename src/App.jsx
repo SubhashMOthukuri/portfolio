@@ -897,17 +897,17 @@ function DitherGradientBackground({ className = '' }) {
       [63, 31, 55, 23, 61, 29, 53, 21],
     ].map((row) => row.map((v) => v / 64));
 
-    // Palette pulled from the site's own theme tokens, weighted heavily toward the
-    // pale end so most of the canvas reads as soft grain, not solid color blocks.
+    // Palette pulled from the site's own theme tokens (base -> olive), weighted heavily
+    // toward the pale end so most of the canvas reads as soft grain, not solid color blocks.
     const palette = [
-      [250, 250, 247], // --color-base
-      [244, 245, 251],
-      [237, 238, 250],
-      [228, 230, 248],
-      [216, 219, 250],
-      [199, 205, 246],
-      [165, 180, 252], // --color-signal
-      [135, 138, 236], // rare accent — only in the brightest field peaks
+      [245, 244, 238], // --color-base
+      [223, 223, 213],
+      [201, 203, 188],
+      [179, 182, 163],
+      [157, 161, 139],
+      [135, 141, 114],
+      [113, 120, 89],
+      [91, 100, 64], // richer olive peak, only in the brightest field peaks
     ];
 
     let w = 0;
@@ -1124,7 +1124,7 @@ function HomePage() {
           <DitherGradientBackground className="absolute inset-0 w-full h-full" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-base" />
           <motion.div
-            className="relative z-10 grid md:grid-cols-2 gap-12 items-start py-20 px-6 md:px-12 max-w-[1440px] mx-auto"
+            className="relative z-10 grid md:grid-cols-2 gap-12 items-start py-12 px-6 md:px-12 max-w-[1440px] mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
@@ -1301,7 +1301,7 @@ function HomePage() {
         <GithubActivityStrip />
 
         {/* WORK SECTION */}
-        <section id="work" className="relative py-20 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface overflow-hidden">
+        <section id="work" className="relative py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface overflow-hidden">
           {/* Subtle modular-grid guide lines — this section's own visual signature, distinct from the hero's dither */}
           <div
             className="pointer-events-none absolute inset-0 opacity-[0.04]"
@@ -1316,7 +1316,7 @@ function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative mb-16"
+            className="relative mb-10"
           >
             <h2 className="text-3xl font-display font-semibold text-ink mb-2">Featured Projects</h2>
             <p className="text-lg text-muted">
@@ -1440,13 +1440,13 @@ function HomePage() {
         </section>
 
         {/* SYSTEMS SECTION — different AI paradigms, each with its own path to production */}
-        <section id="systems" className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto">
+        <section id="systems" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-16"
+            className="mb-10"
           >
             <h2 className="text-3xl font-display font-semibold text-ink mb-2">From Problem to Production</h2>
             <p className="text-lg text-muted max-w-2xl">
@@ -1493,13 +1493,13 @@ function HomePage() {
         </section>
 
         {/* TECH STACK SECTION */}
-        <section id="stack" className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
+        <section id="stack" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-16"
+            className="mb-10"
           >
             <h2 className="text-3xl font-display font-semibold text-ink mb-2">The Full Stack</h2>
             <p className="text-lg text-muted max-w-2xl">
@@ -1534,13 +1534,13 @@ function HomePage() {
         </section>
 
         {/* EXPERIENCE SECTION */}
-        <section id="experience" className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto">
+        <section id="experience" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-16"
+            className="mb-10"
           >
             <h2 className="text-3xl font-display font-semibold text-ink mb-2">Where I've Shipped</h2>
             <p className="text-lg text-muted">
@@ -1606,7 +1606,7 @@ function HomePage() {
         </section>
 
         {/* ABOUT SECTION */}
-        <section id="about" className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
+        <section id="about" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1647,7 +1647,7 @@ function HomePage() {
         </section>
 
         {/* CERTIFICATIONS SECTION */}
-        <section id="certifications" className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto">
+        <section id="certifications" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1694,13 +1694,13 @@ function HomePage() {
         </section>
 
         {/* WRITING SECTION */}
-        <section id="writing" className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
+        <section id="writing" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="mb-16"
+            className="mb-10"
           >
             <h2 className="text-3xl font-display font-semibold text-ink mb-2">Writing</h2>
             <p className="text-lg text-muted max-w-2xl">
@@ -1737,7 +1737,7 @@ function HomePage() {
         </section>
 
         {/* FAQ SECTION */}
-        <section id="faq" className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto">
+        <section id="faq" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1757,7 +1757,7 @@ function HomePage() {
         </section>
 
         {/* CONTACT SECTION */}
-        <section id="contact" className="py-20 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
+        <section id="contact" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -2059,70 +2059,65 @@ function ProjectPage() {
       </div>
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto p-6 md:p-8 space-y-12">
-        {/* Project Image */}
-        <div className="rounded-3xl overflow-hidden h-96 bg-black/5 border border-black/8">
-          <img
-            src={project.image}
-            alt={project.name}
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* Problem & Solution */}
-        <div className="grid md:grid-cols-2 gap-8">
-          <div>
-            <h3 className="text-xl font-display font-semibold text-ink mb-4 flex items-center gap-2">
-              <XCircle size={26} className="text-red-500" /> The Problem
-            </h3>
-            <p className="text-ink/80 text-lg leading-relaxed">
-              {project.problem}
-            </p>
+      <div className="max-w-4xl mx-auto p-6 md:p-8 space-y-8">
+        {/* At a glance — image + problem/solution together, not a giant plain banner */}
+        <div className="grid md:grid-cols-2 gap-4">
+          <div className="h-56 md:h-full rounded-2xl overflow-hidden border border-black/8 bg-black/5">
+            <img
+              src={project.image}
+              alt={project.name}
+              className="w-full h-full object-cover"
+            />
           </div>
-
-          <div>
-            <h3 className="text-xl font-display font-semibold text-ink mb-4 flex items-center gap-2">
-              <CheckCircle2 size={26} className="text-success" /> The Solution
-            </h3>
-            <p className="text-ink/80 text-lg leading-relaxed">
-              {project.solution}
-            </p>
+          <div className="flex flex-col gap-4">
+            <div className="bg-white border border-black/8 rounded-2xl p-5">
+              <h3 className="text-sm font-display font-semibold text-ink mb-2 flex items-center gap-2">
+                <XCircle size={16} className="text-red-500" /> The Problem
+              </h3>
+              <p className="text-sm text-ink/80 leading-relaxed">{project.problem}</p>
+            </div>
+            <div className="bg-white border border-black/8 rounded-2xl p-5">
+              <h3 className="text-sm font-display font-semibold text-ink mb-2 flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-success" /> The Solution
+              </h3>
+              <p className="text-sm text-ink/80 leading-relaxed">{project.solution}</p>
+            </div>
           </div>
         </div>
 
         {/* Architecture Pipeline */}
         <div>
-          <h3 className="text-xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
-            <Code2 size={28} className="text-blue-600" />
+          <h3 className="text-lg font-display font-semibold text-ink mb-4 flex items-center gap-2">
+            <Code2 size={20} className="text-blue-600" />
             Architecture & Production Pipeline
           </h3>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {project.architecture.map((step, i) => {
               const StepIcon = step.icon;
               return (
               <motion.div
                 key={i}
-                className="bg-white border border-black/8 rounded-2xl p-6"
+                className="bg-white border border-black/8 rounded-xl p-4"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
               >
-                <div className="flex gap-4">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-600 text-white flex-shrink-0">
-                    <StepIcon size={22} />
+                <div className="flex gap-3">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-blue-600 text-white flex-shrink-0">
+                    <StepIcon size={18} />
                   </div>
                   <div className="flex-1">
-                    <h4 className="text-lg font-semibold text-ink mb-2">
+                    <h4 className="text-sm font-semibold text-ink mb-1">
                       {step.stage}
                     </h4>
-                    <p className="text-ink/80 mb-2">{step.description}</p>
-                    <div className="flex flex-wrap gap-2">
+                    <p className="text-sm text-ink/80 mb-2">{step.description}</p>
+                    <div className="flex flex-wrap gap-1.5">
                       {step.tools.split(",").map((tool, j) => (
                         <span
                           key={j}
-                          className="px-2 py-1 bg-surface text-ink/70 text-sm rounded-lg border border-black/8 font-mono"
+                          className="px-2 py-0.5 bg-surface text-ink/70 text-xs rounded-lg border border-black/8 font-mono"
                         >
                           {tool.trim()}
                         </span>
@@ -2137,19 +2132,19 @@ function ProjectPage() {
         </div>
 
         {/* Production Deployment */}
-        <div className="bg-white border border-black/8 rounded-3xl p-8">
-          <h3 className="text-xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
-            <Zap size={28} className="text-purple-600" />
+        <div className="bg-surface border border-black/8 rounded-2xl p-6">
+          <h3 className="text-lg font-display font-semibold text-ink mb-4 flex items-center gap-2">
+            <Zap size={20} className="text-purple-600" />
             Production Deployment
           </h3>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-5">
             {Object.entries(project.production).map(([key, value]) => (
               <div key={key}>
-                <h4 className="font-semibold text-ink mb-2 capitalize">
+                <h4 className="text-sm font-semibold text-ink mb-1 capitalize">
                   {key}
                 </h4>
-                <p className="text-ink/70">{value}</p>
+                <p className="text-sm text-ink/70">{value}</p>
               </div>
             ))}
           </div>
@@ -2157,17 +2152,17 @@ function ProjectPage() {
 
         {/* Tech Stack */}
         <div>
-          <h3 className="text-xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
-            <GitBranch size={28} className="text-blue-600" />
+          <h3 className="text-lg font-display font-semibold text-ink mb-4 flex items-center gap-2">
+            <GitBranch size={20} className="text-blue-600" />
             Technology Stack
           </h3>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
             {project.techStack.map((tech, i) => (
               <motion.div
                 key={i}
                 whileHover={{ y: -2 }}
-                className="bg-white p-4 rounded-xl border border-black/8 text-center font-mono text-sm text-ink hover:shadow-[0_12px_30px_-12px_rgba(12,11,20,0.2)] transition-shadow"
+                className="bg-white p-3 rounded-lg border border-black/8 text-center font-mono text-xs text-ink hover:shadow-[0_12px_30px_-12px_rgba(12,11,20,0.2)] transition-shadow"
               >
                 {tech}
               </motion.div>
@@ -2176,23 +2171,23 @@ function ProjectPage() {
         </div>
 
         {/* Key Metrics */}
-        <div className="bg-white border border-black/8 rounded-3xl p-8">
-          <h3 className="text-xl font-display font-semibold text-ink mb-6 flex items-center gap-2">
-            <Shield size={28} className="text-success" />
+        <div className="bg-surface border border-black/8 rounded-2xl p-6">
+          <h3 className="text-lg font-display font-semibold text-ink mb-4 flex items-center gap-2">
+            <Shield size={20} className="text-success" />
             Proven Results
           </h3>
 
-          <ul className="space-y-3">
+          <ul className="space-y-2.5">
             {project.metrics.map((metric, i) => (
               <motion.li
                 key={i}
-                className="flex items-center gap-3 text-ink/80"
+                className="flex items-center gap-3 text-sm text-ink/80"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
               >
-                <span className="w-2 h-2 bg-success rounded-full flex-shrink-0" />
+                <span className="w-1.5 h-1.5 bg-success rounded-full flex-shrink-0" />
                 {metric}
               </motion.li>
             ))}
@@ -2228,8 +2223,8 @@ function ProjectPage() {
         </div>
 
         {/* Related Systems */}
-        <div className="pt-8 border-t border-black/8">
-          <h3 className="text-xl font-display font-semibold text-ink mb-6">Related Systems</h3>
+        <div className="pt-6 border-t border-black/8">
+          <h3 className="text-lg font-display font-semibold text-ink mb-4">Related Systems</h3>
           <div className="grid sm:grid-cols-2 gap-5">
             {projects
               .filter((p) => p.slug !== project.slug)
@@ -2310,9 +2305,9 @@ function CaseStudyPage() {
         </div>
       </div>
 
-      <article className="max-w-4xl mx-auto px-6 md:px-10 py-14 md:py-20">
+      <article className="max-w-4xl mx-auto px-6 md:px-10 py-10 md:py-12">
         {/* Title block */}
-        <div className="mb-14">
+        <div className="mb-8">
           <p className="font-mono text-sm font-semibold text-blue-600 uppercase tracking-[0.15em] mb-5">
             Case Study
           </p>
@@ -2435,7 +2430,7 @@ function CaseStudyPage() {
         </section>
 
         {/* Tech stack */}
-        <section className="mb-16">
+        <section className="mb-10">
           <div className="flex items-baseline gap-4 mb-6">
             <span className="font-mono text-sm text-secondary">{nextSectionNumber()}</span>
             <h2 className="text-2xl font-display font-semibold text-ink">Tech Stack</h2>

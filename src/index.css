@@ -5,8 +5,9 @@
   --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --color-base: #fafaf7;
-  --color-surface: #f3f1ea;
+  --color-base: #f5f4ee;
+  --color-surface: #e9e8dd;
+  --color-olive: #5b6440;
   --color-ink: #0c0b14;
   --color-muted: #6b7280;
   --color-secondary: #9ca3af;
