@@ -1307,7 +1307,7 @@ function HomePage() {
                   Currently building agentic AI @ Scale AI
                 </motion.span>
                 <motion.h1
-                  className="text-4xl md:text-5xl font-display font-semibold text-ink mb-3 leading-tight"
+                  className="text-4xl md:text-5xl font-display font-extrabold text-ink mb-3 leading-tight tracking-tight"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.3 }}
