@@ -1668,30 +1668,30 @@ function HomePage() {
           >
             <div>
               <h2 className="text-3xl font-display font-semibold text-ink mb-6">About Me</h2>
-              <div className="space-y-6 text-lg max-w-3xl">
-                <p className="text-ink/80 leading-relaxed">
-                  AI has moved past being a research exercise — the real problem now is building systems reliable
-                  enough to run in production and valuable enough for a business to actually depend on. That's the
-                  part of this work I care about most.
+              <div className="space-y-6 max-w-3xl">
+                <p className="font-display text-2xl md:text-3xl font-semibold text-ink leading-snug">
+                  The clearest lessons in my career came from watching systems fail — and learning to build ones
+                  that fail safely instead.
                 </p>
-                <p className="text-ink/80 leading-relaxed">
-                  I'm a Full-Stack AI Engineer with 5+ years of production experience, starting with ranking and
-                  recommendation models at Meta and evolving into agentic AI systems today — RAG pipelines, LLM
-                  fine-tuning, and the infrastructure that keeps them running once they leave a notebook.
+                <p className="text-lg text-ink/80 leading-relaxed">
+                  I started at Meta building ranking and recommendation models — two-tower retrieval, ad creative
+                  embeddings, ONNX-optimized inference serving 10M+ predictions a day at under 100ms p99. Getting a
+                  model accurate was the easy part; the real work was keeping it fast, keeping it correct, and
+                  making sure a bad day didn't take the rest of the service down with it.
                 </p>
-                <p className="font-display text-xl md:text-2xl font-semibold text-ink leading-snug border-l-4 border-signal pl-5">
-                  Every line of code should have a fallback.
+                <p className="text-lg text-ink/80 leading-relaxed">
+                  That's the lens I've carried into agentic AI. As a contract AI/ML engineer at Scale AI, I build
+                  RAG pipelines and fine-tune LLMs for enterprise workflows, and I still spend most of my time on
+                  the same question: what happens when this fails? In a clinical RAG system I built, that means
+                  falling back to an FDA-label-only answer rather than letting a model guess at a citation it can't
+                  back up. In production, it means circuit breakers that switch providers instead of raising an
+                  error, and monitoring that catches drift before a user does.
                 </p>
-                <p className="text-ink/80 leading-relaxed">
-                  That's not a slogan — it's the discipline behind the resilience patterns, monitoring, and graceful
-                  degradation in everything I ship. Right now I'm applying it as a contract AI/ML engineer at Scale
-                  AI, focused on RAG pipelines and LLM fine-tuning for enterprise agentic workflows.
-                </p>
-                <p className="text-ink/80 leading-relaxed">
-                  What I enjoy most is the ambiguous part — before a system's shape is obvious, deciding how a model
-                  should fail safely, how to keep inference fast enough to matter, how to make an agent's behavior
-                  explainable to the person relying on it. Turning that ambiguity into something a team can actually
-                  trust in production is the work I find most worth doing.
+                <p className="text-lg text-ink/80 leading-relaxed">
+                  What I enjoy most is the ambiguous stretch before a system's shape is obvious — deciding how a
+                  model should fail safely, how to keep inference fast enough to matter, how to make an agent's
+                  behavior explainable to the person relying on it. Turning that ambiguity into something a team
+                  can actually trust in production is the work I find most worth doing.
                 </p>
               </div>
             </div>
