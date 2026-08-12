@@ -1139,6 +1139,86 @@ function DitherGradientBackground({ className = '' }) {
   );
 }
 
+// Glowing 3D-style light arc for the hero — a warm-palette take on the "neon light streak"
+// look (bright hot core fading to color at the tails), built from stacked blurred SVG
+// strokes rather than a WebGL/3D library. Draws itself in on mount, then breathes gently.
+function GlowArc({ className = '' }) {
+  // Peak sits over the hub-diagram panel (right side), staying low across the
+  // text column on the left so the bright core doesn't cut through paragraph text.
+  const pathD = 'M -80,520 Q 1050,60 1560,480';
+  const reduceMotion =
+    typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 1440 600"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="glow-arc-gradient" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#c1402f" />
+          <stop offset="20%" stopColor="#e0a458" />
+          <stop offset="66%" stopColor="#f8ecd8" />
+          <stop offset="86%" stopColor="#e0a458" />
+          <stop offset="100%" stopColor="#c1402f" />
+        </linearGradient>
+      </defs>
+
+      {/* Outer bloom */}
+      <motion.path
+        d={pathD}
+        fill="none"
+        stroke="url(#glow-arc-gradient)"
+        strokeWidth={28}
+        strokeLinecap="round"
+        style={{ filter: 'blur(22px)' }}
+        opacity={0.22}
+        initial={{ pathLength: 0 }}
+        animate={
+          reduceMotion
+            ? { pathLength: 1 }
+            : { pathLength: 1, opacity: [0.22, 0.32, 0.22] }
+        }
+        transition={
+          reduceMotion
+            ? { duration: 1.6, delay: 0.3, ease: 'easeOut' }
+            : {
+                pathLength: { duration: 1.6, delay: 0.3, ease: 'easeOut' },
+                opacity: { duration: 7, delay: 1.9, repeat: Infinity, ease: 'easeInOut' },
+              }
+        }
+      />
+      {/* Mid bloom */}
+      <motion.path
+        d={pathD}
+        fill="none"
+        stroke="url(#glow-arc-gradient)"
+        strokeWidth={11}
+        strokeLinecap="round"
+        style={{ filter: 'blur(8px)' }}
+        opacity={0.45}
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.6, delay: 0.3, ease: 'easeOut' }}
+      />
+      {/* Sharp core */}
+      <motion.path
+        d={pathD}
+        fill="none"
+        stroke="url(#glow-arc-gradient)"
+        strokeWidth={2.5}
+        strokeLinecap="round"
+        opacity={0.9}
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.6, delay: 0.3, ease: 'easeOut' }}
+      />
+    </svg>
+  );
+}
+
 // Scroll-scrubbed reveal — unlike a one-shot whileInView fade, opacity/position track
 // scroll position directly as the element's top edge crosses the bottom of the viewport,
 // so the next section is visibly animating in while the current one is still on screen
@@ -1350,6 +1430,7 @@ function HomePage() {
         {/* HOME SECTION */}
         <section id="home" className="relative overflow-hidden">
           <DitherGradientBackground className="absolute inset-0 w-full h-full" />
+          <GlowArc className="absolute inset-0 w-full h-full opacity-80 mix-blend-screen pointer-events-none" />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-base" />
           <motion.div
             className="relative z-10 grid md:grid-cols-2 gap-12 items-start py-12 px-6 md:px-12 max-w-[1440px] mx-auto"
