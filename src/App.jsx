@@ -10,9 +10,7 @@ import {
   ExternalLink, Compass, Command, CornerDownLeft, ArrowUpDown, FileText, GitCommitHorizontal,
   Sparkles, Server, Network, Layers, IdCard,
 } from 'lucide-react';
-import clinicalRagImage from './assets/projects/clinical-rag.svg';
-import enterpriseSafetyImage from './assets/projects/enterprise-safety.svg';
-import conversationalAgentImage from './assets/projects/conversational-agent.svg';
+import GithubCalendar from './components/GithubCalendar';
 
 const MotionLink = motion(Link);
 
@@ -106,29 +104,30 @@ const experience = [
 
 // Company wordmark badges for the Experience section
 const companyBrand = {
-  "Scale AI": { bg: "bg-ink", text: "text-white", label: "Scale" },
+  "Scale AI": { bg: "bg-base", text: "text-white", label: "Scale" },
   "Meta": { bg: "bg-[#0668E1]", text: "text-white", label: "meta" },
 };
 
-// Per-domain accent colors so the Systems section reads as distinct paradigms, not one blue wash
+// Per-domain accents, all drawn from the site's own palette (olive/signal/gold/secondary/muted)
+// instead of arbitrary Tailwind hues — distinct enough to scan, never an unrelated rainbow.
 const domainAccent = {
-  "Computer Vision": { badge: "bg-violet-100 text-violet-700", bar: "bg-violet-500", dot: "bg-violet-500" },
-  "NLP": { badge: "bg-blue-100 text-blue-700", bar: "bg-blue-500", dot: "bg-blue-500" },
-  "Audio": { badge: "bg-rose-100 text-rose-700", bar: "bg-rose-500", dot: "bg-rose-500" },
-  "Agentic AI": { badge: "bg-amber-100 text-amber-700", bar: "bg-amber-500", dot: "bg-amber-500" },
-  "LLMs": { badge: "bg-indigo-100 text-indigo-700", bar: "bg-indigo-500", dot: "bg-indigo-500" },
-  "RAG Systems": { badge: "bg-teal-100 text-teal-700", bar: "bg-teal-500", dot: "bg-teal-500" },
+  "Computer Vision": { badge: "bg-olive/15 text-olive", bar: "bg-olive", dot: "bg-olive" },
+  "NLP": { badge: "bg-signal/15 text-signal", bar: "bg-signal", dot: "bg-signal" },
+  "Audio": { badge: "bg-gold/15 text-gold", bar: "bg-gold", dot: "bg-gold" },
+  "Agentic AI": { badge: "bg-secondary/15 text-secondary", bar: "bg-secondary", dot: "bg-secondary" },
+  "LLMs": { badge: "bg-muted/15 text-muted", bar: "bg-muted", dot: "bg-muted" },
+  "RAG Systems": { badge: "bg-olive/10 text-signal", bar: "bg-signal", dot: "bg-signal" },
 };
 
-// Per-category accent colors for the Tech Stack section, same reasoning
+// Per-category accents for the Tech Stack section, same palette-only reasoning
 const stackAccent = {
-  "Programming & ML Frameworks": { badge: "bg-slate-100 text-slate-700", pill: "bg-slate-50 text-slate-700 border-slate-200" },
-  "AI, ML & Deep Learning": { badge: "bg-violet-100 text-violet-700", pill: "bg-violet-50 text-violet-700 border-violet-200" },
-  "Generative AI & LLMs": { badge: "bg-indigo-100 text-indigo-700", pill: "bg-indigo-50 text-indigo-700 border-indigo-200" },
-  "Recommendation, Ranking & Retrieval": { badge: "bg-teal-100 text-teal-700", pill: "bg-teal-50 text-teal-700 border-teal-200" },
-  "MLOps, LLMOps & Evaluation": { badge: "bg-amber-100 text-amber-700", pill: "bg-amber-50 text-amber-700 border-amber-200" },
-  "Data Engineering & Cloud": { badge: "bg-sky-100 text-sky-700", pill: "bg-sky-50 text-sky-700 border-sky-200" },
-  "AI Engineering & Development": { badge: "bg-rose-100 text-rose-700", pill: "bg-rose-50 text-rose-700 border-rose-200" },
+  "Programming & ML Frameworks": { badge: "bg-olive/15 text-olive", pill: "bg-olive/10 text-olive border-olive/25" },
+  "AI, ML & Deep Learning": { badge: "bg-signal/15 text-signal", pill: "bg-signal/10 text-signal border-signal/25" },
+  "Generative AI & LLMs": { badge: "bg-gold/15 text-gold", pill: "bg-gold/10 text-gold border-gold/25" },
+  "Recommendation, Ranking & Retrieval": { badge: "bg-secondary/15 text-secondary", pill: "bg-secondary/10 text-secondary border-secondary/25" },
+  "MLOps, LLMOps & Evaluation": { badge: "bg-muted/15 text-muted", pill: "bg-muted/10 text-muted border-muted/25" },
+  "Data Engineering & Cloud": { badge: "bg-olive/10 text-signal", pill: "bg-olive/10 text-signal border-signal/25" },
+  "AI Engineering & Development": { badge: "bg-olive/15 text-olive", pill: "bg-olive/10 text-olive border-olive/25" },
 };
 
 // Hero visual: four capabilities radiating from one integrated engineer
@@ -183,7 +182,7 @@ const projects = [
     problem: "Small specialty practices run on basic EHR software with no pharmacist and no reconciliation team — a nurse checks medication lists from memory, and a missed interaction can end with a patient in the ER.",
     solution: "A RAG system that checks every drug pair against FDA labels and clinical literature, and would rather hand back an FDA-only answer than let an LLM guess at a citation it can't back up.",
     keywords: ["RAG", "Healthcare AI", "LLMs", "FastAPI", "Production"],
-    image: clinicalRagImage,
+    icon: ClipboardCheck,
     stats: [
       { metric: "95%+", label: "Citation Accuracy" },
       { metric: "440K+", label: "Knowledge Chunks" },
@@ -315,7 +314,7 @@ const projects = [
     problem: "Teams deploying LLMs into production inherit their web-app security posture and assume it's enough — it isn't. A prompt can manipulate model behavior in ways the OWASP Top 10 was never written for, and most enterprises have no audit trail explaining why a model produced a given output.",
     solution: "A security and compliance layer that treats prompt injection and unaudited model behavior as first-class risks — the same way a traditional platform treats SQL injection — mapped against all 10 OWASP LLM Top-10 categories.",
     keywords: ["Enterprise", "Security", "OWASP LLM", "Compliance", "FastAPI"],
-    image: enterpriseSafetyImage,
+    icon: ShieldAlert,
     stats: [
       { metric: "10/10", label: "OWASP Compliance" },
       { metric: "100+", label: "API Endpoints" },
@@ -405,7 +404,7 @@ const projects = [
     problem: "Users need conversational AI that can access current information beyond training data cutoff, without a hardcoded rule for when to search.",
     solution: "A minimal LangGraph agent — two nodes and one conditional edge — where GPT-4o decides for itself whether to call Tavily's search tool, then streams the result back over SSE with a persistent multi-turn checkpointer.",
     keywords: ["Agentic AI", "LangGraph", "Web Search", "TypeScript", "Streaming"],
-    image: conversationalAgentImage,
+    icon: MessageSquare,
     stats: [
       { metric: "SSE", label: "Token Streaming" },
       { metric: "2-Node", label: "LangGraph Design" },
@@ -589,7 +588,7 @@ function NotFoundPage() {
         transition={{ duration: 0.4 }}
         className="text-center max-w-md"
       >
-        <div className="w-16 h-16 rounded-full bg-signal/15 text-blue-600 flex items-center justify-center mx-auto mb-6">
+        <div className="w-16 h-16 rounded-full bg-signal/15 text-signal flex items-center justify-center mx-auto mb-6">
           <Compass size={28} />
         </div>
         <p className="font-mono text-sm text-muted mb-2">404</p>
@@ -599,7 +598,7 @@ function NotFoundPage() {
         </p>
         <Link
           to="/"
-          className="gradient-spectrum inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-medium shadow-[0_12px_30px_-10px_rgba(91,75,230,0.5)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+          className="gradient-spectrum inline-flex items-center gap-2 px-6 py-3 text-base rounded-xl font-medium shadow-[0_12px_30px_-10px_rgba(91,75,230,0.5)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-signal"
         >
           <ArrowLeft size={18} />
           Back to home
@@ -735,7 +734,7 @@ function CommandPalette() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="print-hidden fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-2.5 bg-ink text-white rounded-full shadow-lg hover:scale-105 transition text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+        className="print-hidden fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-2.5 bg-panel border border-white/10 text-white rounded-full shadow-lg hover:scale-105 transition text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-signal"
       >
         <Command size={14} />
         <span>Search</span>
@@ -755,13 +754,13 @@ function CommandPalette() {
               onClick={() => setOpen(false)}
             />
             <motion.div
-              className="fixed top-[15vh] left-1/2 -translate-x-1/2 w-[min(560px,90vw)] bg-white rounded-2xl shadow-2xl border border-black/8 z-[61] overflow-hidden"
+              className="fixed top-[15vh] left-1/2 -translate-x-1/2 w-[min(560px,90vw)] bg-panel rounded-2xl shadow-2xl border border-white/8 z-[61] overflow-hidden"
               initial={{ opacity: 0, y: -10, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.98 }}
               transition={{ duration: 0.15 }}
             >
-              <div className="flex items-center gap-3 px-5 py-4 border-b border-black/8">
+              <div className="flex items-center gap-3 px-5 py-4 border-b border-white/8">
                 <Search size={18} className="text-muted flex-shrink-0" />
                 <input
                   ref={inputRef}
@@ -771,7 +770,7 @@ function CommandPalette() {
                   placeholder="Jump to a section, project, or link…"
                   className="flex-1 outline-none text-ink placeholder:text-secondary bg-transparent"
                 />
-                <kbd className="text-xs text-muted border border-black/10 rounded px-1.5 py-0.5">esc</kbd>
+                <kbd className="text-xs text-muted border border-white/10 rounded px-1.5 py-0.5">esc</kbd>
               </div>
 
               <div className="max-h-[50vh] overflow-y-auto py-2">
@@ -789,7 +788,7 @@ function CommandPalette() {
                         i === activeIndex ? 'bg-signal/10' : ''
                       }`}
                     >
-                      <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-surface text-blue-600 flex-shrink-0">
+                      <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-surface text-signal flex-shrink-0">
                         <Icon size={15} />
                       </span>
                       <span className="flex-1 min-w-0">
@@ -802,7 +801,7 @@ function CommandPalette() {
                 })}
               </div>
 
-              <div className="flex items-center gap-4 px-5 py-3 border-t border-black/8 text-xs text-muted">
+              <div className="flex items-center gap-4 px-5 py-3 border-t border-white/8 text-xs text-muted">
                 <span className="flex items-center gap-1">
                   <ArrowUpDown size={12} /> navigate
                 </span>
@@ -867,30 +866,38 @@ function GithubActivityStrip() {
     };
   }, []);
 
-  if (!activity) return null;
-
   return (
-    <div className="max-w-[1440px] mx-auto px-6 md:px-12 -mt-10 mb-10">
-      <motion.a
-        href={activity.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.9 }}
-        className="inline-flex items-center gap-2.5 text-sm text-muted hover:text-blue-600 transition-colors group max-w-full"
+    <div className="max-w-[1440px] mx-auto px-6 md:px-12 -mt-10 mb-10 space-y-5">
+      {activity && (
+        <motion.a
+          href={activity.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.9 }}
+          className="inline-flex items-center gap-2.5 text-sm text-muted hover:text-signal transition-colors group max-w-full"
+        >
+          <span className="relative flex w-1.5 h-1.5 flex-shrink-0">
+            <span className="absolute inline-flex w-full h-full rounded-full bg-success opacity-75 animate-ping" />
+            <span className="relative inline-flex w-1.5 h-1.5 rounded-full bg-success" />
+          </span>
+          <GitCommitHorizontal size={14} className="flex-shrink-0" />
+          <span className="truncate">
+            Latest on GitHub:{' '}
+            <span className="text-ink/80 group-hover:text-signal transition-colors">{activity.message}</span> in{' '}
+            {activity.repo} · {timeAgo(activity.date)}
+          </span>
+        </motion.a>
+      )}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
       >
-        <span className="relative flex w-1.5 h-1.5 flex-shrink-0">
-          <span className="absolute inline-flex w-full h-full rounded-full bg-success opacity-75 animate-ping" />
-          <span className="relative inline-flex w-1.5 h-1.5 rounded-full bg-success" />
-        </span>
-        <GitCommitHorizontal size={14} className="flex-shrink-0" />
-        <span className="truncate">
-          Latest on GitHub:{' '}
-          <span className="text-ink/80 group-hover:text-blue-600 transition-colors">{activity.message}</span> in{' '}
-          {activity.repo} · {timeAgo(activity.date)}
-        </span>
-      </motion.a>
+        <GithubCalendar username={GITHUB_USERNAME} />
+      </motion.div>
     </div>
   );
 }
@@ -918,17 +925,18 @@ function DitherGradientBackground({ className = '' }) {
       [63, 31, 55, 23, 61, 29, 53, 21],
     ].map((row) => row.map((v) => v / 64));
 
-    // Palette pulled from the site's own theme tokens (base -> olive), weighted heavily
-    // toward the pale end so most of the canvas reads as soft grain, not solid color blocks.
+    // Palette pulled from the site's own theme tokens (base -> olive/red), weighted heavily
+    // toward the dark end so most of the canvas reads as near-black navy grain, with warm
+    // red/orange only flecking through the brightest field peaks — cinematic, not a wash.
     const palette = [
-      [245, 244, 238], // --color-base
-      [223, 223, 213],
-      [201, 203, 188],
-      [179, 182, 163],
-      [157, 161, 139],
-      [135, 141, 114],
-      [113, 120, 89],
-      [91, 100, 64], // richer olive peak, only in the brightest field peaks
+      [19, 30, 38], // --color-base
+      [33, 33, 39],
+      [50, 36, 40],
+      [71, 40, 41],
+      [97, 45, 42],
+      [127, 51, 44],
+      [158, 57, 45],
+      [193, 64, 47], // richer red/olive peak, only in the brightest field peaks
     ];
 
     let w = 0;
@@ -1013,6 +1021,7 @@ function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
+  const FeaturedIcon = projects[0].icon;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1062,7 +1071,7 @@ function HomePage() {
       {/* NAVIGATION BAR */}
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-          isScrolled ? 'bg-base shadow-[0_1px_0_rgba(12,11,20,0.08)]' : 'bg-base/95 backdrop-blur-sm'
+          isScrolled ? 'bg-base shadow-[0_1px_0_rgba(0,0,0,0.08)]' : 'bg-base/95 backdrop-blur-sm'
         }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -1083,7 +1092,7 @@ function HomePage() {
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className="font-medium text-sm text-ink/70 hover:text-blue-600 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 rounded"
+                className="font-medium text-sm text-ink/70 hover:text-signal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 rounded"
               >
                 {item.label}
               </a>
@@ -1092,7 +1101,7 @@ function HomePage() {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 hover:bg-black/5 rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+            className="lg:hidden p-2 hover:bg-white/5 rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <Menu size={24} className="text-ink" />
@@ -1116,7 +1125,7 @@ function HomePage() {
         <AnimatePresence>
           {mobileMenuOpen && (
             <motion.div
-              className="lg:hidden relative z-50 bg-base border-t border-black/8 shadow-xl"
+              className="lg:hidden relative z-50 bg-base border-t border-white/8 shadow-xl"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
@@ -1126,7 +1135,7 @@ function HomePage() {
                   <a
                     key={item.id}
                     href={`#${item.id}`}
-                    className="block font-medium text-ink/70 hover:text-blue-600 transition-colors"
+                    className="block font-medium text-ink/70 hover:text-signal transition-colors"
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     {item.label}
@@ -1159,7 +1168,7 @@ function HomePage() {
             >
               <div>
                 <motion.span
-                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/[0.04] border border-black/8 text-sm font-medium text-ink/70 mb-4"
+                  className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.04] border border-white/8 text-sm font-medium text-ink/70 mb-4"
                   initial={{ opacity: 0, y: -6 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15 }}
@@ -1217,7 +1226,7 @@ function HomePage() {
                   onClick={handleEmailClick}
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="gradient-spectrum inline-flex items-center gap-2 px-6 py-3 text-white rounded-xl font-medium shadow-[0_12px_30px_-10px_rgba(91,75,230,0.5)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                  className="gradient-spectrum inline-flex items-center gap-2 px-6 py-3 text-base rounded-xl font-medium shadow-[0_12px_30px_-10px_rgba(91,75,230,0.5)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-signal"
                 >
                   <Mail size={18} />
                   {emailCopied ? 'Email Copied!' : 'Get in Touch'}
@@ -1228,7 +1237,7 @@ function HomePage() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2 px-6 py-3 border-2 border-black/10 text-ink rounded-xl font-medium hover:border-black/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                  className="inline-flex items-center gap-2 px-6 py-3 border-2 border-white/10 text-ink rounded-xl font-medium hover:border-white/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-signal"
                 >
                   <GithubIcon size={18} />
                   View GitHub
@@ -1238,7 +1247,7 @@ function HomePage() {
                   download
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  className="inline-flex items-center gap-2 px-6 py-3 border-2 border-black/10 text-ink rounded-xl font-medium hover:border-black/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                  className="inline-flex items-center gap-2 px-6 py-3 border-2 border-white/10 text-ink rounded-xl font-medium hover:border-white/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-signal"
                 >
                   <Download size={18} />
                   Resume
@@ -1251,7 +1260,7 @@ function HomePage() {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative h-96 md:h-full bg-white/35 backdrop-blur-xl rounded-3xl border border-white/50 shadow-[0_20px_60px_-25px_rgba(12,11,20,0.25)] overflow-hidden"
+              className="relative h-96 md:h-full bg-panel/60 backdrop-blur-xl rounded-3xl border border-white/10 shadow-[0_20px_60px_-25px_rgba(0,0,0,0.25)] overflow-hidden"
             >
               {/* Connecting lines — drawn once on mount, no continuous animation */}
               <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -1259,7 +1268,7 @@ function HomePage() {
                   <motion.line
                     key={`line-${cap.label}`}
                     x1={cap.x} y1={cap.y} x2="50" y2="50"
-                    stroke="#3b82f6" strokeOpacity="0.3" strokeWidth="0.6"
+                    stroke="#e0a458" strokeOpacity="0.3" strokeWidth="0.6"
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
                     transition={{ duration: 0.6, delay: 0.5 + i * 0.06 }}
@@ -1278,12 +1287,12 @@ function HomePage() {
                   className="relative"
                 >
                   <motion.span
-                    className="absolute inset-0 rounded-full bg-blue-400/40"
+                    className="absolute inset-0 rounded-full bg-signal/40"
                     style={{ willChange: 'transform, opacity' }}
                     animate={{ scale: [1, 1.6, 1], opacity: [0.5, 0, 0.5] }}
                     transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
                   />
-                  <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center shadow-lg">
+                  <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-olive to-signal flex items-center justify-center shadow-lg">
                     <BrainCircuit size={34} className="text-white" />
                   </div>
                 </motion.div>
@@ -1304,7 +1313,7 @@ function HomePage() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.65 + i * 0.1 }}
                     >
-                      <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-white shadow-sm border border-black/8 text-blue-600">
+                      <span className="flex items-center justify-center w-11 h-11 md:w-12 md:h-12 rounded-full bg-panel shadow-sm border border-white/8 text-signal">
                         <Icon size={18} />
                       </span>
                       <span className="hidden md:block w-full text-[11px] font-semibold text-ink/70 text-center leading-tight">
@@ -1356,26 +1365,29 @@ function HomePage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
               whileHover={{ y: -5 }}
-              className="group relative block cursor-pointer md:w-2/3 bg-white border border-black/8 rounded-2xl overflow-hidden hover:border-black/15 hover:shadow-[0_20px_60px_-20px_rgba(12,11,20,0.2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+              className="group relative block cursor-pointer md:w-2/3 bg-panel border border-white/8 rounded-2xl overflow-hidden hover:border-white/15 hover:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
             >
               <div className="relative p-5 md:p-6">
-                <span className="absolute -top-3 -right-2 font-display font-bold text-black/[0.04] text-[110px] leading-none select-none pointer-events-none">
+                <span className="absolute -top-3 -right-2 font-display font-bold text-white/[0.04] text-[110px] leading-none select-none pointer-events-none">
                   01
                 </span>
                 <div className="relative grid sm:grid-cols-2 gap-5">
-                  <div className="h-44 sm:h-auto bg-black/5 rounded-xl overflow-hidden">
-                    <img
-                      src={projects[0].image}
-                      alt={projects[0].name}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  <div className="relative h-44 sm:h-auto rounded-xl overflow-hidden bg-[linear-gradient(135deg,var(--color-olive)_0%,var(--color-ink)_100%)]">
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: 'radial-gradient(circle at 30% 25%, rgba(224,164,88,0.35), transparent 60%)' }}
                     />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 text-white group-hover:scale-105 transition-transform duration-300">
+                        <FeaturedIcon size={28} />
+                      </span>
+                    </div>
                   </div>
                   <div className="flex flex-col">
-                    <span className="inline-block px-2 py-0.5 bg-blue-600 text-white text-[10px] font-bold uppercase tracking-wide rounded-full mb-2 self-start">
+                    <span className="inline-block px-2 py-0.5 bg-signal text-base text-[10px] font-bold uppercase tracking-wide rounded-full mb-2 self-start">
                       Featured
                     </span>
-                    <h3 className="text-lg font-display font-semibold text-ink mb-1 group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-lg font-display font-semibold text-ink mb-1 group-hover:text-signal transition-colors">
                       {projects[0].name}
                     </h3>
                     <p className="text-sm text-muted font-medium mb-2">{projects[0].tagline}</p>
@@ -1384,7 +1396,7 @@ function HomePage() {
                     <div className="grid grid-cols-2 gap-2 mb-3">
                       {projects[0].stats.slice(0, 2).map((stat, i) => (
                         <div key={i} className="bg-surface p-2.5 rounded-lg">
-                          <div className="text-[15px] font-display font-semibold text-blue-600">
+                          <div className="text-[15px] font-display font-semibold text-signal">
                             {stat.metric}
                           </div>
                           <div className="text-xs text-muted">{stat.label}</div>
@@ -1395,13 +1407,13 @@ function HomePage() {
                       {projects[0].keywords.slice(0, 3).map((keyword, i) => (
                         <span
                           key={i}
-                          className="px-2.5 py-0.5 bg-signal/15 text-blue-700 text-xs rounded-full font-medium"
+                          className="px-2.5 py-0.5 bg-signal/15 text-signal text-xs rounded-full font-medium"
                         >
                           {keyword}
                         </span>
                       ))}
                     </div>
-                    <span className="flex items-center gap-1.5 text-blue-600 text-sm font-semibold group-hover:text-blue-700 transition-colors">
+                    <span className="flex items-center gap-1.5 text-signal text-sm font-semibold group-hover:text-signal transition-colors">
                       View Details
                       <ArrowRight size={16} />
                     </span>
@@ -1413,6 +1425,7 @@ function HomePage() {
             <div className="md:w-1/3 flex flex-col gap-4 w-full">
               {projects.slice(1).map((project, i) => {
                 const index = i + 1;
+                const Icon = project.icon;
                 return (
                   <MotionLink
                     key={project.id}
@@ -1422,20 +1435,23 @@ function HomePage() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.08 }}
                     whileHover={{ y: -5 }}
-                    className="group block cursor-pointer bg-white border border-black/8 rounded-2xl overflow-hidden hover:border-black/15 hover:shadow-[0_20px_60px_-20px_rgba(12,11,20,0.2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 p-5"
+                    className="group block cursor-pointer bg-panel border border-white/8 rounded-2xl overflow-hidden hover:border-white/15 hover:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 p-5"
                   >
-                    <div className="h-24 bg-black/5 rounded-lg overflow-hidden mb-3">
-                      <img
-                        src={project.image}
-                        alt={project.name}
-                        loading="lazy"
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    <div className="relative h-24 rounded-lg overflow-hidden mb-3 bg-[linear-gradient(135deg,var(--color-olive)_0%,var(--color-ink)_100%)]">
+                      <div
+                        className="absolute inset-0"
+                        style={{ background: 'radial-gradient(circle at 30% 25%, rgba(224,164,88,0.35), transparent 60%)' }}
                       />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15 text-white group-hover:scale-105 transition-transform duration-300">
+                          <Icon size={18} />
+                        </span>
+                      </div>
                     </div>
                     <span className="font-mono text-xs text-muted mb-1 block">
                       {String(index + 1).padStart(2, '0')}
                     </span>
-                    <h3 className="text-[15px] font-display font-semibold text-ink mb-1 group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-[15px] font-display font-semibold text-ink mb-1 group-hover:text-signal transition-colors">
                       {project.name}
                     </h3>
                     <p className="text-sm text-muted line-clamp-2 mb-2">{project.tagline}</p>
@@ -1443,13 +1459,13 @@ function HomePage() {
                       {project.keywords.slice(0, 2).map((keyword, i) => (
                         <span
                           key={i}
-                          className="px-2.5 py-0.5 bg-signal/15 text-blue-700 text-xs rounded-full font-medium"
+                          className="px-2.5 py-0.5 bg-signal/15 text-signal text-xs rounded-full font-medium"
                         >
                           {keyword}
                         </span>
                       ))}
                     </div>
-                    <span className="flex items-center gap-1.5 text-blue-600 text-sm font-semibold group-hover:text-blue-700 transition-colors">
+                    <span className="flex items-center gap-1.5 text-signal text-sm font-semibold group-hover:text-signal transition-colors">
                       View Details
                       <ArrowRight size={14} />
                     </span>
@@ -1486,7 +1502,7 @@ function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: i * 0.06 }}
-                  className="relative bg-white border border-black/8 rounded-2xl p-5 overflow-hidden"
+                  className="relative bg-panel border border-white/8 rounded-2xl p-5 overflow-hidden"
                 >
                   <span className={`absolute top-0 left-0 right-0 h-1 ${accent.bar}`} />
                   <div className="flex items-center gap-2.5 mb-4">
@@ -1538,7 +1554,7 @@ function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className="bg-white border border-black/8 rounded-2xl p-5"
+                  className="bg-panel border border-white/8 rounded-2xl p-5"
                 >
                   <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold mb-3 ${accent.badge}`}>
                     {group.category}
@@ -1582,7 +1598,7 @@ function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="bg-white border border-black/8 rounded-3xl p-6 md:p-8"
+                className="bg-panel border border-white/8 rounded-3xl p-6 md:p-8"
               >
                 <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
                   <div className="flex items-center gap-4">
@@ -1590,7 +1606,7 @@ function HomePage() {
                       className={`flex items-center justify-center w-12 h-12 rounded-2xl flex-shrink-0 font-display font-bold ${
                         companyBrand[job.company]?.label.length > 4 ? 'text-xs' : 'text-sm'
                       } ${companyBrand[job.company]?.bg || 'bg-signal/15'} ${
-                        companyBrand[job.company]?.text || 'text-blue-600'
+                        companyBrand[job.company]?.text || 'text-signal'
                       }`}
                     >
                       {companyBrand[job.company]?.label || <Building2 size={22} />}
@@ -1612,7 +1628,7 @@ function HomePage() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                   {job.impact.map((stat) => (
                     <div key={stat.label} className="bg-surface p-3 rounded-xl">
-                      <div className="text-lg font-display font-semibold text-blue-600">{stat.metric}</div>
+                      <div className="text-lg font-display font-semibold text-signal">{stat.metric}</div>
                       <div className="text-xs text-muted">{stat.label}</div>
                     </div>
                   ))}
@@ -1621,7 +1637,7 @@ function HomePage() {
                 <ul className="space-y-2.5">
                   {job.highlights.map((h, j) => (
                     <li key={j} className="flex gap-3 text-ink/80 text-sm leading-relaxed">
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-600 mt-1.5 flex-shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-signal mt-1.5 flex-shrink-0" />
                       {h}
                     </li>
                   ))}
@@ -1690,8 +1706,8 @@ function HomePage() {
                     <CardTag
                       key={i}
                       {...(cert.url ? { href: cert.url, target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className={`group p-6 bg-white border border-black/8 rounded-2xl hover:border-blue-300 hover:shadow-[0_20px_60px_-25px_rgba(12,11,20,0.25)] transition-shadow ${
-                        cert.url ? 'block cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50' : ''
+                      className={`group p-6 bg-panel border border-white/8 rounded-2xl hover:border-signal hover:shadow-[0_20px_60px_-25px_rgba(0,0,0,0.25)] transition-shadow ${
+                        cert.url ? 'block cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50' : ''
                       }`}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -1703,11 +1719,11 @@ function HomePage() {
                         {cert.url && (
                           <ExternalLink
                             size={14}
-                            className="text-muted group-hover:text-blue-600 transition-colors flex-shrink-0"
+                            className="text-muted group-hover:text-signal transition-colors flex-shrink-0"
                           />
                         )}
                       </div>
-                      <h3 className="text-xl font-display font-semibold text-ink mb-2 mt-1 group-hover:text-blue-600 transition-colors">
+                      <h3 className="text-xl font-display font-semibold text-ink mb-2 mt-1 group-hover:text-signal transition-colors">
                         {cert.title}
                       </h3>
                       <p className="text-muted font-medium">{cert.issuer}</p>
@@ -1745,17 +1761,17 @@ function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.06 }}
-                className="group flex items-start justify-between gap-6 bg-white border border-black/8 rounded-2xl p-6 md:p-8 hover:border-blue-300 hover:shadow-[0_20px_60px_-25px_rgba(12,11,20,0.25)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+                className="group flex items-start justify-between gap-6 bg-panel border border-white/8 rounded-2xl p-6 md:p-8 hover:border-signal hover:shadow-[0_20px_60px_-25px_rgba(0,0,0,0.25)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
               >
                 <div>
-                  <h3 className="text-xl font-display font-semibold text-ink mb-2 group-hover:text-blue-600 transition-colors">
+                  <h3 className="text-xl font-display font-semibold text-ink mb-2 group-hover:text-signal transition-colors">
                     {post.title}
                   </h3>
                   <p className="text-ink/70">{post.teaser}</p>
                 </div>
                 <ExternalLink
                   size={20}
-                  className="text-muted flex-shrink-0 mt-1 group-hover:text-blue-600 transition-colors"
+                  className="text-muted flex-shrink-0 mt-1 group-hover:text-signal transition-colors"
                 />
               </motion.a>
             ))}
@@ -1813,19 +1829,19 @@ function HomePage() {
                       target={item.external ? "_blank" : undefined}
                       rel={item.external ? "noopener noreferrer" : undefined}
                       onClick={item.onClick}
-                      className="flex items-center gap-4 p-6 bg-white border border-black/8 rounded-2xl hover:border-blue-300 hover:shadow-[0_20px_60px_-25px_rgba(12,11,20,0.25)] transition-shadow group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+                      className="flex items-center gap-4 p-6 bg-panel border border-white/8 rounded-2xl hover:border-signal hover:shadow-[0_20px_60px_-25px_rgba(0,0,0,0.25)] transition-shadow group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
                       whileHover={{ x: 6 }}
                       whileTap={{ scale: 0.98 }}
                     >
                       <motion.span
-                        className="flex items-center justify-center w-12 h-12 flex-shrink-0 rounded-full bg-signal/15 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors"
+                        className="flex items-center justify-center w-12 h-12 flex-shrink-0 rounded-full bg-signal/15 text-signal group-hover:bg-signal group-hover:text-base transition-colors"
                         whileHover={{ scale: 1.1, rotate: -6 }}
                         transition={{ type: "spring", stiffness: 300, damping: 15 }}
                       >
                         <Icon size={20} />
                       </motion.span>
                       <div>
-                        <h3 className="font-semibold text-ink group-hover:text-blue-600 transition-colors">
+                        <h3 className="font-semibold text-ink group-hover:text-signal transition-colors">
                           {item.label}
                         </h3>
                         <p className="text-sm text-muted mt-0.5">{item.detail}</p>
@@ -1842,16 +1858,16 @@ function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="relative bg-ink rounded-3xl p-7 md:p-8 overflow-hidden"
+              className="relative bg-base rounded-3xl p-7 md:p-8 overflow-hidden"
             >
               {/* Ambient accents */}
-              <div className="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-blue-500/20 blur-3xl pointer-events-none" />
+              <div className="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-signal/20 blur-3xl pointer-events-none" />
               <div className="absolute inset-x-0 top-0 h-1 gradient-spectrum" />
 
               <div className="relative">
                 {/* Identity */}
                 <div className="flex items-center gap-3.5 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-olive to-signal flex items-center justify-center flex-shrink-0 shadow-lg">
                     <BrainCircuit size={22} className="text-white" />
                   </div>
                   <div>
@@ -1909,7 +1925,7 @@ function HomePage() {
                   download
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-white text-ink rounded-xl font-medium text-sm hover:bg-white/90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-ink focus-visible:ring-blue-400"
+                  className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-panel text-ink rounded-xl font-medium text-sm hover:bg-white/90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-ink focus-visible:ring-signal"
                 >
                   <IdCard size={16} />
                   Save Contact
@@ -1920,7 +1936,7 @@ function HomePage() {
         </section>
 
         {/* FOOTER */}
-        <footer className="bg-ink text-white pt-16 pb-8 px-6 md:px-12">
+        <footer className="bg-base text-white pt-16 pb-8 px-6 md:px-12">
           <div className="max-w-[1440px] mx-auto">
             <div className="grid md:grid-cols-3 gap-10 pb-10 border-b border-white/10">
               <div>
@@ -2006,14 +2022,14 @@ function FAQItem({ question, answer }) {
 
   return (
     <motion.div
-      className="bg-white border border-black/8 rounded-2xl overflow-hidden"
+      className="bg-panel border border-white/8 rounded-2xl overflow-hidden"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
     >
       <button
         onClick={() => setOpen(!open)}
-        className="w-full p-6 flex justify-between items-center hover:bg-black/[0.02] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+        className="w-full p-6 flex justify-between items-center hover:bg-white/[0.02] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
       >
         <h3 className="text-lg font-semibold text-ink text-left">{question}</h3>
         <motion.div
@@ -2030,7 +2046,7 @@ function FAQItem({ question, answer }) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="border-t border-black/8 bg-surface p-6"
+            className="border-t border-white/8 bg-surface p-6"
           >
             <p className="text-ink/80 leading-relaxed">{answer}</p>
           </motion.div>
@@ -2053,7 +2069,7 @@ function ProjectPage() {
     return (
       <div className="min-h-screen bg-base flex flex-col items-center justify-center gap-4 text-center px-6">
         <p className="text-xl text-ink/80">Project not found.</p>
-        <Link to="/" className="text-blue-600 font-medium hover:underline">
+        <Link to="/" className="text-signal font-medium hover:underline">
           ← Back to home
         </Link>
       </div>
@@ -2068,12 +2084,12 @@ function ProjectPage() {
       transition={{ duration: 0.3 }}
     >
       {/* Header */}
-      <div className="sticky top-0 bg-base/95 backdrop-blur-sm border-b border-black/8 z-10">
+      <div className="sticky top-0 bg-base/95 backdrop-blur-sm border-b border-white/8 z-10">
         <div className="max-w-4xl mx-auto px-6 md:px-8 py-5 flex items-start justify-between gap-4">
           <div>
             <Link
               to="/"
-              className="inline-flex items-center gap-2 text-muted hover:text-blue-600 font-medium transition-colors mb-3"
+              className="inline-flex items-center gap-2 text-muted hover:text-signal font-medium transition-colors mb-3"
             >
               <ArrowLeft size={18} />
               Back to projects
@@ -2088,21 +2104,25 @@ function ProjectPage() {
       <div className="max-w-4xl mx-auto p-6 md:p-8 space-y-8">
         {/* At a glance — image + problem/solution together, not a giant plain banner */}
         <div className="grid md:grid-cols-2 gap-4">
-          <div className="h-56 md:h-full rounded-2xl overflow-hidden border border-black/8 bg-black/5">
-            <img
-              src={project.image}
-              alt={project.name}
-              className="w-full h-full object-cover"
+          <div className="relative h-56 md:h-full rounded-2xl overflow-hidden bg-[linear-gradient(135deg,var(--color-olive)_0%,var(--color-ink)_100%)]">
+            <div
+              className="absolute inset-0"
+              style={{ background: 'radial-gradient(circle at 30% 25%, rgba(224,164,88,0.35), transparent 60%)' }}
             />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="flex items-center justify-center w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 text-white">
+                <project.icon size={36} />
+              </span>
+            </div>
           </div>
           <div className="flex flex-col gap-4">
-            <div className="bg-white border border-black/8 rounded-2xl p-5">
+            <div className="bg-panel border border-white/8 rounded-2xl p-5">
               <h3 className="text-sm font-display font-semibold text-ink mb-2 flex items-center gap-2">
-                <XCircle size={16} className="text-red-500" /> The Problem
+                <XCircle size={16} className="text-olive" /> The Problem
               </h3>
               <p className="text-sm text-ink/80 leading-relaxed">{project.problem}</p>
             </div>
-            <div className="bg-white border border-black/8 rounded-2xl p-5">
+            <div className="bg-panel border border-white/8 rounded-2xl p-5">
               <h3 className="text-sm font-display font-semibold text-ink mb-2 flex items-center gap-2">
                 <CheckCircle2 size={16} className="text-success" /> The Solution
               </h3>
@@ -2114,7 +2134,7 @@ function ProjectPage() {
         {/* Architecture Pipeline */}
         <div>
           <h3 className="text-lg font-display font-semibold text-ink mb-4 flex items-center gap-2">
-            <Code2 size={20} className="text-blue-600" />
+            <Code2 size={20} className="text-signal" />
             Architecture & Production Pipeline
           </h3>
 
@@ -2124,14 +2144,14 @@ function ProjectPage() {
               return (
               <motion.div
                 key={i}
-                className="bg-white border border-black/8 rounded-xl p-4"
+                className="bg-panel border border-white/8 rounded-xl p-4"
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
               >
                 <div className="flex gap-3">
-                  <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-blue-600 text-white flex-shrink-0">
+                  <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-signal text-base flex-shrink-0">
                     <StepIcon size={18} />
                   </div>
                   <div className="flex-1">
@@ -2143,7 +2163,7 @@ function ProjectPage() {
                       {step.tools.split(",").map((tool, j) => (
                         <span
                           key={j}
-                          className="px-2 py-0.5 bg-surface text-ink/70 text-xs rounded-lg border border-black/8 font-mono"
+                          className="px-2 py-0.5 bg-surface text-ink/70 text-xs rounded-lg border border-white/8 font-mono"
                         >
                           {tool.trim()}
                         </span>
@@ -2158,9 +2178,9 @@ function ProjectPage() {
         </div>
 
         {/* Production Deployment */}
-        <div className="bg-surface border border-black/8 rounded-2xl p-6">
+        <div className="bg-surface border border-white/8 rounded-2xl p-6">
           <h3 className="text-lg font-display font-semibold text-ink mb-4 flex items-center gap-2">
-            <Zap size={20} className="text-purple-600" />
+            <Zap size={20} className="text-signal" />
             Production Deployment
           </h3>
 
@@ -2179,7 +2199,7 @@ function ProjectPage() {
         {/* Tech Stack */}
         <div>
           <h3 className="text-lg font-display font-semibold text-ink mb-4 flex items-center gap-2">
-            <GitBranch size={20} className="text-blue-600" />
+            <GitBranch size={20} className="text-signal" />
             Technology Stack
           </h3>
 
@@ -2188,7 +2208,7 @@ function ProjectPage() {
               <motion.div
                 key={i}
                 whileHover={{ y: -2 }}
-                className="bg-white p-3 rounded-lg border border-black/8 text-center font-mono text-xs text-ink hover:shadow-[0_12px_30px_-12px_rgba(12,11,20,0.2)] transition-shadow"
+                className="bg-panel p-3 rounded-lg border border-white/8 text-center font-mono text-xs text-ink hover:shadow-[0_12px_30px_-12px_rgba(0,0,0,0.2)] transition-shadow"
               >
                 {tech}
               </motion.div>
@@ -2197,7 +2217,7 @@ function ProjectPage() {
         </div>
 
         {/* Key Metrics */}
-        <div className="bg-surface border border-black/8 rounded-2xl p-6">
+        <div className="bg-surface border border-white/8 rounded-2xl p-6">
           <h3 className="text-lg font-display font-semibold text-ink mb-4 flex items-center gap-2">
             <Shield size={20} className="text-success" />
             Proven Results
@@ -2226,14 +2246,14 @@ function ProjectPage() {
             href={project.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="gradient-spectrum px-8 py-3 text-white rounded-xl font-medium shadow-[0_12px_30px_-10px_rgba(91,75,230,0.5)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+            className="gradient-spectrum px-8 py-3 text-base rounded-xl font-medium shadow-[0_12px_30px_-10px_rgba(91,75,230,0.5)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-signal"
           >
             View on GitHub
           </a>
           {project.caseStudy ? (
             <Link
               to={`/projects/${project.slug}/case-study`}
-              className="px-8 py-3 border-2 border-black/10 text-ink rounded-xl font-medium hover:border-black/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500 inline-flex items-center gap-2"
+              className="px-8 py-3 border-2 border-white/10 text-ink rounded-xl font-medium hover:border-white/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-signal inline-flex items-center gap-2"
             >
               <FileText size={18} />
               View Case Study
@@ -2241,7 +2261,7 @@ function ProjectPage() {
           ) : (
             <button
               onClick={() => alert("Case study coming soon for this project")}
-              className="px-8 py-3 border-2 border-black/10 text-ink rounded-xl font-medium hover:border-black/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+              className="px-8 py-3 border-2 border-white/10 text-ink rounded-xl font-medium hover:border-white/20 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-signal"
             >
               Case Study Coming Soon
             </button>
@@ -2249,7 +2269,7 @@ function ProjectPage() {
         </div>
 
         {/* Related Systems */}
-        <div className="pt-6 border-t border-black/8">
+        <div className="pt-6 border-t border-white/8">
           <h3 className="text-lg font-display font-semibold text-ink mb-4">Related Systems</h3>
           <div className="grid sm:grid-cols-2 gap-5">
             {projects
@@ -2258,18 +2278,21 @@ function ProjectPage() {
                 <Link
                   key={p.slug}
                   to={`/projects/${p.slug}`}
-                  className="group block bg-white border border-black/8 rounded-2xl overflow-hidden hover:border-blue-300 hover:shadow-[0_20px_60px_-25px_rgba(12,11,20,0.25)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50"
+                  className="group block bg-panel border border-white/8 rounded-2xl overflow-hidden hover:border-signal hover:shadow-[0_20px_60px_-25px_rgba(0,0,0,0.25)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
                 >
-                  <div className="h-36 bg-black/5 overflow-hidden">
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  <div className="relative h-36 overflow-hidden bg-[linear-gradient(135deg,var(--color-olive)_0%,var(--color-ink)_100%)]">
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: 'radial-gradient(circle at 30% 25%, rgba(224,164,88,0.35), transparent 60%)' }}
                     />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15 text-white group-hover:scale-105 transition-transform duration-300">
+                        <p.icon size={22} />
+                      </span>
+                    </div>
                   </div>
                   <div className="p-4">
-                    <h4 className="font-semibold text-ink group-hover:text-blue-600 transition-colors line-clamp-1">
+                    <h4 className="font-semibold text-ink group-hover:text-signal transition-colors line-clamp-1">
                       {p.name}
                     </h4>
                     <p className="text-sm text-muted mt-1 line-clamp-2">{p.tagline}</p>
@@ -2296,7 +2319,7 @@ function CaseStudyPage() {
     return (
       <div className="min-h-screen bg-base flex flex-col items-center justify-center gap-4 text-center px-6">
         <p className="text-xl text-ink/80">No case study available for this project yet.</p>
-        <Link to={project ? `/projects/${project.slug}` : '/'} className="text-blue-600 font-medium hover:underline">
+        <Link to={project ? `/projects/${project.slug}` : '/'} className="text-signal font-medium hover:underline">
           ← Back to project
         </Link>
       </div>
@@ -2311,11 +2334,11 @@ function CaseStudyPage() {
   return (
     <div className="min-h-screen bg-base">
       {/* Header */}
-      <div className="print-hidden sticky top-0 bg-base/95 backdrop-blur-sm border-b border-black/8 z-10">
+      <div className="print-hidden sticky top-0 bg-base/95 backdrop-blur-sm border-b border-white/8 z-10">
         <div className="max-w-4xl mx-auto px-6 md:px-10 py-4 flex items-center justify-between gap-4">
           <Link
             to={`/projects/${project.slug}`}
-            className="inline-flex items-center gap-2 text-muted hover:text-blue-600 font-medium transition-colors text-sm"
+            className="inline-flex items-center gap-2 text-muted hover:text-signal font-medium transition-colors text-sm"
           >
             <ArrowLeft size={16} />
             Back to project
@@ -2323,7 +2346,7 @@ function CaseStudyPage() {
           <a
             href={pdfUrl}
             download
-            className="inline-flex items-center gap-2 px-4 py-2 bg-ink text-white rounded-lg font-medium text-sm hover:bg-ink/90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-signal text-base rounded-lg font-medium text-sm hover:bg-signal/90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-signal"
           >
             <Download size={15} />
             Download PDF
@@ -2334,21 +2357,29 @@ function CaseStudyPage() {
       <article className="max-w-4xl mx-auto px-6 md:px-10 py-10 md:py-12">
         {/* Title block */}
         <div className="mb-8">
-          <p className="font-mono text-sm font-semibold text-blue-600 uppercase tracking-[0.15em] mb-5">
+          <p className="font-mono text-sm font-semibold text-signal uppercase tracking-[0.15em] mb-5">
             Case Study
           </p>
           <h1 className="text-4xl md:text-5xl font-display font-semibold text-ink leading-[1.05] mb-5">
             {project.name}
           </h1>
           <p className="text-xl text-ink/70 leading-relaxed mb-7 max-w-3xl">{cs.subtitle}</p>
-          <span className="flex items-start gap-3 px-5 py-4 rounded-xl bg-gold/15 text-amber-800 font-medium leading-relaxed max-w-3xl">
+          <span className="flex items-start gap-3 px-5 py-4 rounded-xl bg-gold/15 text-gold font-medium leading-relaxed max-w-3xl">
             <span className="w-2 h-2 rounded-full bg-gold flex-shrink-0 mt-1.5" />
             {cs.status}
           </span>
         </div>
 
-        <div className="rounded-3xl overflow-hidden h-80 md:h-[28rem] bg-black/5 border border-black/8 mb-20">
-          <img src={project.image} alt={project.name} className="w-full h-full object-cover" />
+        <div className="relative rounded-3xl overflow-hidden h-80 md:h-[28rem] mb-20 bg-[linear-gradient(135deg,var(--color-olive)_0%,var(--color-ink)_100%)]">
+          <div
+            className="absolute inset-0"
+            style={{ background: 'radial-gradient(circle at 30% 25%, rgba(224,164,88,0.35), transparent 60%)' }}
+          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="flex items-center justify-center w-24 h-24 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/15 text-white">
+              <project.icon size={44} />
+            </span>
+          </div>
         </div>
 
         {/* Overview */}
@@ -2378,7 +2409,7 @@ function CaseStudyPage() {
           <ul className="space-y-4">
             {cs.principles.map((p, i) => (
               <li key={i} className="flex gap-4 text-ink/80 text-xl leading-[1.7] max-w-3xl">
-                <span className="w-2 h-2 rounded-full bg-blue-600 mt-3.5 flex-shrink-0" />
+                <span className="w-2 h-2 rounded-full bg-signal mt-3.5 flex-shrink-0" />
                 {p}
               </li>
             ))}
@@ -2396,7 +2427,7 @@ function CaseStudyPage() {
           </p>
           <div className="space-y-6">
             {cs.architecturePhases.map((phase, i) => (
-              <div key={phase.title} className="bg-white border border-black/8 rounded-2xl p-7 md:p-9">
+              <div key={phase.title} className="bg-panel border border-white/8 rounded-2xl p-7 md:p-9">
                 <div className="flex items-start gap-5">
                   <span className="font-mono text-sm text-muted flex-shrink-0 pt-1.5">
                     {String(i + 1).padStart(2, '0')}
@@ -2465,7 +2496,7 @@ function CaseStudyPage() {
             {project.techStack.map((tech, i) => (
               <span
                 key={i}
-                className="px-3.5 py-2 bg-surface text-ink/80 text-sm font-mono rounded-lg border border-black/8"
+                className="px-3.5 py-2 bg-surface text-ink/80 text-sm font-mono rounded-lg border border-white/8"
               >
                 {tech}
               </span>
@@ -2474,19 +2505,19 @@ function CaseStudyPage() {
         </section>
 
         {/* CTA */}
-        <div className="print-hidden flex gap-4 flex-wrap pt-8 border-t border-black/8">
+        <div className="print-hidden flex gap-4 flex-wrap pt-8 border-t border-white/8">
           <a
             href={project.github}
             target="_blank"
             rel="noopener noreferrer"
-            className="gradient-spectrum px-8 py-3 text-white rounded-xl font-medium shadow-[0_12px_30px_-10px_rgba(91,75,230,0.5)] transition inline-flex items-center gap-2"
+            className="gradient-spectrum px-8 py-3 text-base rounded-xl font-medium shadow-[0_12px_30px_-10px_rgba(91,75,230,0.5)] transition inline-flex items-center gap-2"
           >
             View on GitHub
             <ExternalLink size={16} />
           </a>
           <Link
             to={`/projects/${project.slug}`}
-            className="px-8 py-3 border-2 border-black/10 text-ink rounded-xl font-medium hover:border-black/20 transition"
+            className="px-8 py-3 border-2 border-white/10 text-ink rounded-xl font-medium hover:border-white/20 transition"
           >
             Back to project overview
           </Link>

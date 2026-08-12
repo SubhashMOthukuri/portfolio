@@ -5,15 +5,18 @@
   --font-display: "Space Grotesk", "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --color-base: #f5f4ee;
-  --color-surface: #e9e8dd;
-  --color-olive: #5b6440;
-  --color-ink: #0c0b14;
-  --color-muted: #6b7280;
-  --color-secondary: #9ca3af;
-  --color-signal: #a5b4fc;
-  --color-success: #34d399;
-  --color-gold: #fbbf24;
+  /* Cinematic dark palette — dark navy field, red/orange/cream accents,
+     modeled on teal-and-orange film grading rather than a flat brand blue. */
+  --color-base: #131e26;
+  --color-surface: #1a2830;
+  --color-panel: #253742;
+  --color-olive: #c1402f;
+  --color-ink: #f3e7d4;
+  --color-muted: #a89a86;
+  --color-secondary: #7d8d95;
+  --color-signal: #e0a458;
+  --color-success: #4fae7c;
+  --color-gold: #d9a441;
 }
 
 body {
@@ -22,11 +25,11 @@ body {
 }
 
 .gradient-spectrum {
-  background-image: linear-gradient(100deg, #2563eb 0%, #5b4be6 28%, #7c3aed 48%, #db2777 72%, #ea580c 100%);
+  background-image: linear-gradient(100deg, #c1402f 0%, #e0a458 55%, #f3e7d4 100%);
 }
 
 .text-gradient-spectrum {
-  background-image: linear-gradient(100deg, #2563eb 0%, #5b4be6 28%, #7c3aed 48%, #db2777 72%, #ea580c 100%);
+  background-image: linear-gradient(100deg, #c1402f 0%, #e0a458 55%, #f3e7d4 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
