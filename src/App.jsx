@@ -11,8 +11,7 @@ import {
   Sparkles, Server, Network, Layers, IdCard,
 } from 'lucide-react';
 import GithubCalendar from './components/GithubCalendar';
-
-const MotionLink = motion(Link);
+import ProjectCarousel from './components/ProjectCarousel';
 
 // Brand icons (not included in lucide-react)
 function GithubIcon({ size = 24, ...props }) {
@@ -1150,7 +1149,6 @@ function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
-  const FeaturedIcon = projects[0].icon;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1483,125 +1481,8 @@ function HomePage() {
             </p>
           </motion.div>
 
-          {/* Modular bento layout — featured project sizes to its own content (no forced row-matching),
-              compact projects stack independently beside it. Two flex columns, not a CSS grid, so
-              neither side stretches to fill space the other side doesn't need. */}
-          <div className="relative flex flex-col md:flex-row gap-4 items-start">
-            <MotionLink
-              to={`/projects/${projects[0].slug}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              whileHover={{ y: -5 }}
-              className="group relative block cursor-pointer md:w-2/3 bg-panel border border-white/8 rounded-2xl overflow-hidden hover:border-white/15 hover:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
-            >
-              <div className="relative p-5 md:p-6">
-                <span className="absolute -top-3 -right-2 font-display font-bold text-white/[0.04] text-[110px] leading-none select-none pointer-events-none">
-                  01
-                </span>
-                <div className="relative grid sm:grid-cols-2 gap-5">
-                  <div className="relative h-44 sm:h-auto rounded-xl overflow-hidden bg-[linear-gradient(135deg,var(--color-olive)_0%,var(--color-ink)_100%)]">
-                    <div
-                      className="absolute inset-0"
-                      style={{ background: 'radial-gradient(circle at 30% 25%, rgba(224,164,88,0.35), transparent 60%)' }}
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 text-white group-hover:scale-105 transition-transform duration-300">
-                        <FeaturedIcon size={28} />
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="inline-block px-2 py-0.5 bg-signal text-base text-[10px] font-bold uppercase tracking-wide rounded-full mb-2 self-start">
-                      Featured
-                    </span>
-                    <h3 className="text-lg font-display font-semibold text-ink mb-1 group-hover:text-signal transition-colors">
-                      {projects[0].name}
-                    </h3>
-                    <p className="text-sm text-muted font-medium mb-2">{projects[0].tagline}</p>
-                    <p className="text-sm text-ink/80 line-clamp-2 mb-4">{projects[0].problem}</p>
-
-                    <div className="grid grid-cols-2 gap-2 mb-3">
-                      {projects[0].stats.slice(0, 2).map((stat, i) => (
-                        <div key={i} className="bg-surface p-2.5 rounded-lg">
-                          <div className="text-[15px] font-display font-semibold text-signal">
-                            {stat.metric}
-                          </div>
-                          <div className="text-xs text-muted">{stat.label}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="flex flex-wrap gap-1.5 mb-3">
-                      {projects[0].keywords.slice(0, 3).map((keyword, i) => (
-                        <span
-                          key={i}
-                          className="px-2.5 py-0.5 bg-signal/15 text-signal text-xs rounded-full font-medium"
-                        >
-                          {keyword}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="flex items-center gap-1.5 text-signal text-sm font-semibold group-hover:text-signal transition-colors">
-                      View Details
-                      <ArrowRight size={16} />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </MotionLink>
-
-            <div className="md:w-1/3 flex flex-col gap-4 w-full">
-              {projects.slice(1).map((project, i) => {
-                const index = i + 1;
-                const Icon = project.icon;
-                return (
-                  <MotionLink
-                    key={project.id}
-                    to={`/projects/${project.slug}`}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.08 }}
-                    whileHover={{ y: -5 }}
-                    className="group block cursor-pointer bg-panel border border-white/8 rounded-2xl overflow-hidden hover:border-white/15 hover:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.2)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50 p-5"
-                  >
-                    <div className="relative h-24 rounded-lg overflow-hidden mb-3 bg-[linear-gradient(135deg,var(--color-olive)_0%,var(--color-ink)_100%)]">
-                      <div
-                        className="absolute inset-0"
-                        style={{ background: 'radial-gradient(circle at 30% 25%, rgba(224,164,88,0.35), transparent 60%)' }}
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15 text-white group-hover:scale-105 transition-transform duration-300">
-                          <Icon size={18} />
-                        </span>
-                      </div>
-                    </div>
-                    <span className="font-mono text-xs text-muted mb-1 block">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <h3 className="text-[15px] font-display font-semibold text-ink mb-1 group-hover:text-signal transition-colors">
-                      {project.name}
-                    </h3>
-                    <p className="text-sm text-muted line-clamp-2 mb-2">{project.tagline}</p>
-                    <div className="flex flex-wrap gap-1.5 mb-3">
-                      {project.keywords.slice(0, 2).map((keyword, i) => (
-                        <span
-                          key={i}
-                          className="px-2.5 py-0.5 bg-signal/15 text-signal text-xs rounded-full font-medium"
-                        >
-                          {keyword}
-                        </span>
-                      ))}
-                    </div>
-                    <span className="flex items-center gap-1.5 text-signal text-sm font-semibold group-hover:text-signal transition-colors">
-                      View Details
-                      <ArrowRight size={14} />
-                    </span>
-                  </MotionLink>
-                );
-              })}
-            </div>
+          <div className="relative">
+            <ProjectCarousel projects={projects} />
           </div>
         </section>
 
