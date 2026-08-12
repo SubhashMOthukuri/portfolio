@@ -1171,6 +1171,50 @@ function ScrollReveal({ as = 'div', children, y = 24, x = 0, className, ...rest 
   );
 }
 
+// One word of a StaggerText block. Shares its parent's scrollYProgress but maps
+// it to its own narrow window (offset by index) so words light up in sequence
+// as scroll passes through the block — a line-by-line sweep built from words,
+// since real line breaks aren't knowable without measuring layout.
+function StaggerWord({ word, index, total, progress, revealed }) {
+  const windowSize = Math.min(0.5, 3 / Math.max(total, 1));
+  const start = (index / Math.max(total, 1)) * (1 - windowSize);
+  const opacity = useTransform(progress, [start, start + windowSize], [0, 1]);
+  const y = useTransform(progress, [start, start + windowSize], [14, 0]);
+  return (
+    <motion.span
+      style={revealed ? { opacity: 1, y: 0 } : { opacity, y }}
+      className="inline-block"
+    >
+      {word}
+    </motion.span>
+  );
+}
+
+// Splits static text into words and reveals them in a scroll-scrubbed sweep as
+// the block enters the viewport, instead of the whole line fading in as one
+// unit. Locks fully visible after first reveal, same as ScrollReveal.
+function StaggerText({ as: Tag = 'span', children, className }) {
+  const ref = useRef(null);
+  const [revealed, setRevealed] = useState(false);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.9', 'start 0.45'] });
+
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    if (v >= 0.99 && !revealed) setRevealed(true);
+  });
+
+  const words = String(children).split(' ');
+  return (
+    <Tag ref={ref} className={className}>
+      {words.map((word, i) => (
+        <React.Fragment key={i}>
+          <StaggerWord word={word} index={i} total={words.length} progress={scrollYProgress} revealed={revealed} />
+          {i < words.length - 1 ? ' ' : ''}
+        </React.Fragment>
+      ))}
+    </Tag>
+  );
+}
+
 // Home Page Component
 function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -1495,12 +1539,14 @@ function HomePage() {
             }}
           />
 
-          <ScrollReveal className="relative mb-10">
-            <h2 className="text-3xl font-display font-semibold text-ink mb-2">Featured Projects</h2>
-            <p className="text-lg text-muted">
+          <div className="relative mb-10">
+            <StaggerText as="h2" className="text-3xl font-display font-semibold text-ink mb-2">
+              Featured Projects
+            </StaggerText>
+            <StaggerText as="p" className="text-lg text-muted">
               Production systems solving real-world problems at scale
-            </p>
-          </ScrollReveal>
+            </StaggerText>
+          </div>
 
           <div className="relative">
             <ProjectCarousel projects={projects} />
@@ -1509,12 +1555,14 @@ function HomePage() {
 
         {/* SYSTEMS SECTION — different AI paradigms, each with its own path to production */}
         <section id="systems" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
-          <ScrollReveal className="mb-10">
-            <h2 className="text-3xl font-display font-semibold text-ink mb-2">From Problem to Production</h2>
-            <p className="text-lg text-muted max-w-2xl">
+          <div className="mb-10">
+            <StaggerText as="h2" className="text-3xl font-display font-semibold text-ink mb-2">
+              From Problem to Production
+            </StaggerText>
+            <StaggerText as="p" className="text-lg text-muted max-w-2xl">
               Different AI paradigms need different pipelines. Here's the real path each one takes to a deployed system.
-            </p>
-          </ScrollReveal>
+            </StaggerText>
+          </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {domainPipelines.map((lane, i) => {
@@ -1554,12 +1602,14 @@ function HomePage() {
 
         {/* TECH STACK SECTION */}
         <section id="stack" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
-          <ScrollReveal className="mb-10">
-            <h2 className="text-3xl font-display font-semibold text-ink mb-2">The Full Stack</h2>
-            <p className="text-lg text-muted max-w-2xl">
+          <div className="mb-10">
+            <StaggerText as="h2" className="text-3xl font-display font-semibold text-ink mb-2">
+              The Full Stack
+            </StaggerText>
+            <StaggerText as="p" className="text-lg text-muted max-w-2xl">
               Research to deployment — the tools behind everything above.
-            </p>
-          </ScrollReveal>
+            </StaggerText>
+          </div>
 
           <div className="grid md:grid-cols-2 gap-4">
             {techStackCategories.map((group, i) => {
@@ -1592,12 +1642,14 @@ function HomePage() {
 
         {/* EXPERIENCE SECTION */}
         <section id="experience" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
-          <ScrollReveal className="mb-10">
-            <h2 className="text-3xl font-display font-semibold text-ink mb-2">Where I've Shipped</h2>
-            <p className="text-lg text-muted">
+          <div className="mb-10">
+            <StaggerText as="h2" className="text-3xl font-display font-semibold text-ink mb-2">
+              Where I've Shipped
+            </StaggerText>
+            <StaggerText as="p" className="text-lg text-muted">
               5+ years across recommendation systems, ranking, and generative AI in production
-            </p>
-          </ScrollReveal>
+            </StaggerText>
+          </div>
 
           <div className="space-y-8">
             {experience.map((job, i) => (
@@ -1655,21 +1707,23 @@ function HomePage() {
 
         {/* ABOUT SECTION */}
         <section id="about" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
-          <ScrollReveal className="space-y-8">
+          <div className="space-y-8">
             <div>
-              <h2 className="text-3xl font-display font-semibold text-ink mb-6">About Me</h2>
+              <StaggerText as="h2" className="text-3xl font-display font-semibold text-ink mb-6">
+                About Me
+              </StaggerText>
               <div className="space-y-6 max-w-3xl">
-                <p className="font-display text-2xl md:text-3xl font-semibold text-ink leading-snug">
+                <StaggerText as="p" className="font-display text-2xl md:text-3xl font-semibold text-ink leading-snug">
                   The clearest lessons in my career came from watching systems fail — and learning to build ones
                   that fail safely instead.
-                </p>
-                <p className="text-lg text-ink/80 leading-relaxed">
+                </StaggerText>
+                <ScrollReveal as="p" y={16} className="text-lg text-ink/80 leading-relaxed">
                   I started at Meta building ranking and recommendation models — two-tower retrieval, ad creative
                   embeddings, ONNX-optimized inference serving 10M+ predictions a day at under 100ms p99. Getting a
                   model accurate was the easy part; the real work was keeping it fast, keeping it correct, and
                   making sure a bad day didn't take the rest of the service down with it.
-                </p>
-                <p className="text-lg text-ink/80 leading-relaxed">
+                </ScrollReveal>
+                <ScrollReveal as="p" y={16} className="text-lg text-ink/80 leading-relaxed">
                   That's the lens I've carried into agentic AI. At Scale AI, I lead the engineering on RAG
                   pipelines and LLM fine-tuning for enterprise workflows — which starts with gathering requirements
                   directly from clients, continues through presenting the architecture for review, and ends with
@@ -1679,24 +1733,26 @@ function HomePage() {
                   FDA-label-only answer rather than letting a model guess at a citation it can't back up. In
                   production, it means circuit breakers that switch providers instead of raising an error, and
                   monitoring that catches drift before a user does.
-                </p>
-                <p className="text-lg text-ink/80 leading-relaxed">
+                </ScrollReveal>
+                <ScrollReveal as="p" y={16} className="text-lg text-ink/80 leading-relaxed">
                   What I enjoy most is the ambiguous stretch before a system's shape is obvious — deciding how a
                   model should fail safely, how to keep inference fast enough to matter, how to make an agent's
                   behavior explainable to the person relying on it, and how to explain all of that to a stakeholder
                   who just wants to know if it's going to work. Turning that ambiguity into something a team — and
                   a client — can actually trust in production is the work I find most worth doing.
-                </p>
+                </ScrollReveal>
               </div>
             </div>
-          </ScrollReveal>
+          </div>
         </section>
 
         {/* CERTIFICATIONS SECTION */}
         <section id="certifications" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
-          <ScrollReveal className="space-y-8">
+          <div className="space-y-8">
             <div>
-              <h2 className="text-3xl font-display font-semibold text-ink mb-6">Certifications</h2>
+              <StaggerText as="h2" className="text-3xl font-display font-semibold text-ink mb-6">
+                Certifications
+              </StaggerText>
               <div className="grid md:grid-cols-2 gap-6">
                 {certifications.map((cert, i) => {
                   return (
@@ -1726,17 +1782,19 @@ function HomePage() {
                 })}
               </div>
             </div>
-          </ScrollReveal>
+          </div>
         </section>
 
         {/* WRITING SECTION */}
         <section id="writing" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
-          <ScrollReveal className="mb-10">
-            <h2 className="text-3xl font-display font-semibold text-ink mb-2">Writing</h2>
-            <p className="text-lg text-muted max-w-2xl">
+          <div className="mb-10">
+            <StaggerText as="h2" className="text-3xl font-display font-semibold text-ink mb-2">
+              Writing
+            </StaggerText>
+            <StaggerText as="p" className="text-lg text-muted max-w-2xl">
               Notes from production — where the metrics and the real world disagree.
-            </p>
-          </ScrollReveal>
+            </StaggerText>
+          </div>
 
           <div className="space-y-5">
             {writing.map((post, i) => (
@@ -1766,16 +1824,18 @@ function HomePage() {
 
         {/* FAQ SECTION */}
         <section id="faq" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
-          <ScrollReveal className="space-y-8">
+          <div className="space-y-8">
             <div>
-              <h2 className="text-3xl font-display font-semibold text-ink mb-6">Frequently Asked Questions</h2>
+              <StaggerText as="h2" className="text-3xl font-display font-semibold text-ink mb-6">
+                Frequently Asked Questions
+              </StaggerText>
               <div className="space-y-4">
                 {faqItems.map((item, i) => (
                   <FAQItem key={i} question={item.q} answer={item.a} />
                 ))}
               </div>
             </div>
-          </ScrollReveal>
+          </div>
         </section>
 
         {/* CONTACT SECTION */}
@@ -1787,10 +1847,12 @@ function HomePage() {
                   <span className="w-1.5 h-1.5 rounded-full bg-success" />
                   Open to architecture consulting & advisory work
                 </span>
-                <h2 className="text-3xl font-display font-semibold text-ink mb-4">Let's Talk</h2>
-                <p className="text-lg text-muted mb-8">
+                <StaggerText as="h2" className="text-3xl font-display font-semibold text-ink mb-4">
+                  Let's Talk
+                </StaggerText>
+                <StaggerText as="p" className="text-lg text-muted mb-8">
                   Always happy to discuss AI/ML systems, architecture, or opportunities. Email is the fastest way to reach me.
-                </p>
+                </StaggerText>
               </div>
 
               <div className="space-y-4">
