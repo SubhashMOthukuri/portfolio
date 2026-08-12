@@ -1680,18 +1680,22 @@ function HomePage() {
                   making sure a bad day didn't take the rest of the service down with it.
                 </p>
                 <p className="text-lg text-ink/80 leading-relaxed">
-                  That's the lens I've carried into agentic AI. As a contract AI/ML engineer at Scale AI, I build
-                  RAG pipelines and fine-tune LLMs for enterprise workflows, and I still spend most of my time on
-                  the same question: what happens when this fails? In a clinical RAG system I built, that means
-                  falling back to an FDA-label-only answer rather than letting a model guess at a citation it can't
-                  back up. In production, it means circuit breakers that switch providers instead of raising an
-                  error, and monitoring that catches drift before a user does.
+                  That's the lens I've carried into agentic AI. At Scale AI, I lead the engineering on RAG
+                  pipelines and LLM fine-tuning for enterprise workflows — which starts with gathering requirements
+                  directly from clients, continues through presenting the architecture for review, and ends with
+                  demoing the finished system to the stakeholders who have to trust it before it ships. The
+                  technical question underneath all of that is still the one I've always cared about most: what
+                  happens when this fails? In a clinical RAG system I built, that means falling back to an
+                  FDA-label-only answer rather than letting a model guess at a citation it can't back up. In
+                  production, it means circuit breakers that switch providers instead of raising an error, and
+                  monitoring that catches drift before a user does.
                 </p>
                 <p className="text-lg text-ink/80 leading-relaxed">
                   What I enjoy most is the ambiguous stretch before a system's shape is obvious — deciding how a
                   model should fail safely, how to keep inference fast enough to matter, how to make an agent's
-                  behavior explainable to the person relying on it. Turning that ambiguity into something a team
-                  can actually trust in production is the work I find most worth doing.
+                  behavior explainable to the person relying on it, and how to explain all of that to a stakeholder
+                  who just wants to know if it's going to work. Turning that ambiguity into something a team — and
+                  a client — can actually trust in production is the work I find most worth doing.
                 </p>
               </div>
             </div>
