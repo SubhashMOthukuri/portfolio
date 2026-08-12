@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import { Routes, Route, Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
   ArrowRight, ArrowLeft, Code2, Zap, Shield, GitBranch, Menu, ChevronDown,
@@ -1018,14 +1018,9 @@ function GithubActivityStrip() {
           </span>
         </motion.a>
       )}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
+      <ScrollReveal y={12}>
         <GithubCalendar username={GITHUB_USERNAME} />
-      </motion.div>
+      </ScrollReveal>
     </div>
   );
 }
@@ -1141,6 +1136,38 @@ function DitherGradientBackground({ className = '' }) {
       style={{ imageRendering: 'pixelated', display: 'block' }}
       aria-hidden="true"
     />
+  );
+}
+
+// Scroll-scrubbed reveal — unlike a one-shot whileInView fade, opacity/position track
+// scroll position directly as the element's top edge crosses the bottom of the viewport,
+// so the next section is visibly animating in while the current one is still on screen
+// instead of snapping in as a fixed-duration animation once it's already centered.
+// Once fully revealed it locks in place (via `revealed`) so scrolling back up doesn't
+// make already-read content flicker out again.
+function ScrollReveal({ as = 'div', children, y = 24, x = 0, className, ...rest }) {
+  const ref = useRef(null);
+  const [revealed, setRevealed] = useState(false);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.92', 'start 0.55'] });
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const translateY = useTransform(scrollYProgress, [0, 1], [y, 0]);
+  const translateX = useTransform(scrollYProgress, [0, 1], [x, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [0.98, 1]);
+
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    if (v >= 0.99 && !revealed) setRevealed(true);
+  });
+
+  const MotionTag = motion[as];
+  return (
+    <MotionTag
+      ref={ref}
+      style={revealed ? { opacity: 1, y: 0, x: 0, scale: 1 } : { opacity, y: translateY, x: translateX, scale }}
+      className={className}
+      {...rest}
+    >
+      {children}
+    </MotionTag>
   );
 }
 
@@ -1468,18 +1495,12 @@ function HomePage() {
             }}
           />
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="relative mb-10"
-          >
+          <ScrollReveal className="relative mb-10">
             <h2 className="text-3xl font-display font-semibold text-ink mb-2">Featured Projects</h2>
             <p className="text-lg text-muted">
               Production systems solving real-world problems at scale
             </p>
-          </motion.div>
+          </ScrollReveal>
 
           <div className="relative">
             <ProjectCarousel projects={projects} />
@@ -1488,30 +1509,22 @@ function HomePage() {
 
         {/* SYSTEMS SECTION — different AI paradigms, each with its own path to production */}
         <section id="systems" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-10"
-          >
+          <ScrollReveal className="mb-10">
             <h2 className="text-3xl font-display font-semibold text-ink mb-2">From Problem to Production</h2>
             <p className="text-lg text-muted max-w-2xl">
               Different AI paradigms need different pipelines. Here's the real path each one takes to a deployed system.
             </p>
-          </motion.div>
+          </ScrollReveal>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {domainPipelines.map((lane, i) => {
               const LaneIcon = lane.icon;
               const accent = domainAccent[lane.domain];
               return (
-                <motion.div
+                <ScrollReveal
+                  as="div"
                   key={lane.domain}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: i * 0.06 }}
+                  y={16}
                   className="relative bg-panel border border-white/8 rounded-2xl p-5 overflow-hidden"
                 >
                   <span className={`absolute top-0 left-0 right-0 h-1 ${accent.bar}`} />
@@ -1533,7 +1546,7 @@ function HomePage() {
                       <span className="text-xs font-semibold text-success">Production</span>
                     </div>
                   </div>
-                </motion.div>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -1541,29 +1554,21 @@ function HomePage() {
 
         {/* TECH STACK SECTION */}
         <section id="stack" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-10"
-          >
+          <ScrollReveal className="mb-10">
             <h2 className="text-3xl font-display font-semibold text-ink mb-2">The Full Stack</h2>
             <p className="text-lg text-muted max-w-2xl">
               Research to deployment — the tools behind everything above.
             </p>
-          </motion.div>
+          </ScrollReveal>
 
           <div className="grid md:grid-cols-2 gap-4">
             {techStackCategories.map((group, i) => {
               const accent = stackAccent[group.category];
               return (
-                <motion.div
+                <ScrollReveal
+                  as="div"
                   key={group.category}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.05 }}
+                  y={16}
                   className="bg-panel border border-white/8 rounded-2xl p-5"
                 >
                   <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold mb-3 ${accent.badge}`}>
@@ -1579,7 +1584,7 @@ function HomePage() {
                       </span>
                     ))}
                   </div>
-                </motion.div>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -1587,27 +1592,18 @@ function HomePage() {
 
         {/* EXPERIENCE SECTION */}
         <section id="experience" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-10"
-          >
+          <ScrollReveal className="mb-10">
             <h2 className="text-3xl font-display font-semibold text-ink mb-2">Where I've Shipped</h2>
             <p className="text-lg text-muted">
               5+ years across recommendation systems, ranking, and generative AI in production
             </p>
-          </motion.div>
+          </ScrollReveal>
 
           <div className="space-y-8">
             {experience.map((job, i) => (
-              <motion.div
+              <ScrollReveal
+                as="div"
                 key={job.company}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
                 className="bg-panel border border-white/8 rounded-3xl p-6 md:p-8"
               >
                 <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
@@ -1652,20 +1648,14 @@ function HomePage() {
                     </li>
                   ))}
                 </ul>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </section>
 
         {/* ABOUT SECTION */}
         <section id="about" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8"
-          >
+          <ScrollReveal className="space-y-8">
             <div>
               <h2 className="text-3xl font-display font-semibold text-ink mb-6">About Me</h2>
               <div className="space-y-6 max-w-3xl">
@@ -1699,34 +1689,24 @@ function HomePage() {
                 </p>
               </div>
             </div>
-          </motion.div>
+          </ScrollReveal>
         </section>
 
         {/* CERTIFICATIONS SECTION */}
         <section id="certifications" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8"
-          >
+          <ScrollReveal className="space-y-8">
             <div>
               <h2 className="text-3xl font-display font-semibold text-ink mb-6">Certifications</h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {certifications.map((cert, i) => {
-                  const CardTag = cert.url ? motion.a : motion.div;
                   return (
-                    <CardTag
+                    <ScrollReveal
+                      as={cert.url ? 'a' : 'div'}
                       key={i}
                       {...(cert.url ? { href: cert.url, target: '_blank', rel: 'noopener noreferrer' } : {})}
                       className={`group p-6 bg-panel border border-white/8 rounded-2xl hover:border-signal hover:shadow-[0_20px_60px_-25px_rgba(0,0,0,0.25)] transition-shadow ${
                         cert.url ? 'block cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50' : ''
                       }`}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.06 }}
                     >
                       <div className="flex items-start justify-between gap-2">
                         <span className="font-mono text-xs text-muted">{String(i + 1).padStart(2, '0')}</span>
@@ -1741,40 +1721,32 @@ function HomePage() {
                         {cert.title}
                       </h3>
                       <p className="text-muted font-medium">{cert.issuer}</p>
-                    </CardTag>
+                    </ScrollReveal>
                   );
                 })}
               </div>
             </div>
-          </motion.div>
+          </ScrollReveal>
         </section>
 
         {/* WRITING SECTION */}
         <section id="writing" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mb-10"
-          >
+          <ScrollReveal className="mb-10">
             <h2 className="text-3xl font-display font-semibold text-ink mb-2">Writing</h2>
             <p className="text-lg text-muted max-w-2xl">
               Notes from production — where the metrics and the real world disagree.
             </p>
-          </motion.div>
+          </ScrollReveal>
 
           <div className="space-y-5">
             {writing.map((post, i) => (
-              <motion.a
+              <ScrollReveal
+                as="a"
                 key={post.url}
                 href={post.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
+                y={16}
                 className="group flex items-start justify-between gap-6 bg-panel border border-white/8 rounded-2xl p-6 md:p-8 hover:border-signal hover:shadow-[0_20px_60px_-25px_rgba(0,0,0,0.25)] transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
               >
                 <div>
@@ -1787,20 +1759,14 @@ function HomePage() {
                   size={20}
                   className="text-muted flex-shrink-0 mt-1 group-hover:text-signal transition-colors"
                 />
-              </motion.a>
+              </ScrollReveal>
             ))}
           </div>
         </section>
 
         {/* FAQ SECTION */}
         <section id="faq" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8"
-          >
+          <ScrollReveal className="space-y-8">
             <div>
               <h2 className="text-3xl font-display font-semibold text-ink mb-6">Frequently Asked Questions</h2>
               <div className="space-y-4">
@@ -1809,18 +1775,12 @@ function HomePage() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </ScrollReveal>
         </section>
 
         {/* CONTACT SECTION */}
         <section id="contact" className="py-12 px-6 md:px-12 max-w-[1440px] mx-auto bg-surface">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="grid lg:grid-cols-[1.3fr_1fr] gap-10 items-start"
-          >
+          <ScrollReveal className="grid lg:grid-cols-[1.3fr_1fr] gap-10 items-start">
             <div className="space-y-8">
               <div>
                 <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-success/10 text-success text-sm font-medium mb-4">
@@ -1867,13 +1827,7 @@ function HomePage() {
             </div>
 
             {/* Business Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="relative bg-base rounded-3xl p-7 md:p-8 overflow-hidden"
-            >
+            <ScrollReveal y={16} className="relative bg-base rounded-3xl p-7 md:p-8 overflow-hidden">
               {/* Ambient accents */}
               <div className="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-signal/20 blur-3xl pointer-events-none" />
               <div className="absolute inset-x-0 top-0 h-1 gradient-spectrum" />
@@ -1945,8 +1899,8 @@ function HomePage() {
                   Save Contact
                 </motion.a>
               </div>
-            </motion.div>
-          </motion.div>
+            </ScrollReveal>
+          </ScrollReveal>
         </section>
 
         {/* FOOTER */}
@@ -2035,12 +1989,7 @@ function FAQItem({ question, answer }) {
   const [open, setOpen] = React.useState(false);
 
   return (
-    <motion.div
-      className="bg-panel border border-white/8 rounded-2xl overflow-hidden"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-    >
+    <ScrollReveal y={0} className="bg-panel border border-white/8 rounded-2xl overflow-hidden">
       <button
         onClick={() => setOpen(!open)}
         className="w-full p-6 flex justify-between items-center hover:bg-white/[0.02] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal/50"
@@ -2066,7 +2015,7 @@ function FAQItem({ question, answer }) {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.div>
+    </ScrollReveal>
   );
 }
 
@@ -2156,14 +2105,7 @@ function ProjectPage() {
             {project.architecture.map((step, i) => {
               const StepIcon = step.icon;
               return (
-              <motion.div
-                key={i}
-                className="bg-panel border border-white/8 rounded-xl p-4"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-              >
+              <ScrollReveal key={i} y={0} x={-20} className="bg-panel border border-white/8 rounded-xl p-4">
                 <div className="flex gap-3">
                   <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-signal text-base flex-shrink-0">
                     <StepIcon size={18} />
@@ -2185,7 +2127,7 @@ function ProjectPage() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </ScrollReveal>
               );
             })}
           </div>
@@ -2239,17 +2181,10 @@ function ProjectPage() {
 
           <ul className="space-y-2.5">
             {project.metrics.map((metric, i) => (
-              <motion.li
-                key={i}
-                className="flex items-center gap-3 text-sm text-ink/80"
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-              >
+              <ScrollReveal as="li" key={i} y={0} x={-20} className="flex items-center gap-3 text-sm text-ink/80">
                 <span className="w-1.5 h-1.5 bg-success rounded-full flex-shrink-0" />
                 {metric}
-              </motion.li>
+              </ScrollReveal>
             ))}
           </ul>
         </div>
