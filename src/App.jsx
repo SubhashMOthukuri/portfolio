@@ -1228,7 +1228,7 @@ function GlowArc({ className = '' }) {
 function ScrollReveal({ as = 'div', children, y = 24, x = 0, className, ...rest }) {
   const ref = useRef(null);
   const [revealed, setRevealed] = useState(false);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.92', 'start 0.55'] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.95', 'start 0.15'] });
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
   const translateY = useTransform(scrollYProgress, [0, 1], [y, 0]);
   const translateX = useTransform(scrollYProgress, [0, 1], [x, 0]);
@@ -1276,7 +1276,7 @@ function StaggerWord({ word, index, total, progress, revealed }) {
 function StaggerText({ as: Tag = 'span', children, className }) {
   const ref = useRef(null);
   const [revealed, setRevealed] = useState(false);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.9', 'start 0.45'] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.95', 'start 0.1'] });
 
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
     if (v >= 0.99 && !revealed) setRevealed(true);
